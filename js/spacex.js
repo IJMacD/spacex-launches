@@ -82,6 +82,8 @@ $(function(){
 			ctx.fillStyle = "#98BB71";
 			ctx.fillRect(0, height - groundHeight, width, height);
 
+			drawAxis();
+
 			_drawingIndex.length = 0;
 
 			return Promise.all(
@@ -177,6 +179,36 @@ $(function(){
 				ctx.drawImage(img, x, y);
 			}
 		}
+
+		ctx.restore();
+	}
+
+	function drawAxis(){
+		var year = startDate.getFullYear(),
+			yearStart = new Date(year, 0, 1),
+			markerStart = (yearStart - startDate) * horizontalScale,
+			markerWidth = horizontalScale * (365 * 24 * 60 * 60 * 1000),
+			markerEnd = markerStart + markerWidth,
+			flip = false;
+
+		ctx.save();
+
+		ctx.lineWidth = 2;
+
+		for (; markerStart <= width; markerStart += markerWidth) {
+			ctx.strokeStyle = flip ? "#000000" : "#ffffff";
+			ctx.beginPath();
+			ctx.moveTo(markerStart, height - groundHeight);
+			ctx.lineTo(markerStart + markerWidth, height - groundHeight);
+			ctx.stroke();
+
+			ctx.fillStyle = "#3E4D2E";
+			ctx.font = "20px monospace";
+			ctx.fillText(year, markerStart, height - groundHeight + 20);
+
+			flip = !flip;
+			year++;
+		};
 
 		ctx.restore();
 	}
