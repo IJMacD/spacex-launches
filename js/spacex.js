@@ -4,6 +4,8 @@ $(function(){
 		width = canvas.width() * 2,
 		height = canvas.height() * 2,
 
+		downloadBtn = $('#download-btn'),
+
 		now = new Date(),
 		startDate = new Date("2010-05-14"),
 		horizontalScale = 600 / (365 * 24 * 60 * 60 * 1000), // 100 pixels per year
@@ -12,7 +14,8 @@ $(function(){
 		spaceHeight = 600,
 		groundHeight = 50,
 		option = {
-			spaceGradient: false
+			showFuture: true,
+			spaceGradient: true
 		},
 
 		orbits = {
@@ -81,67 +84,80 @@ $(function(){
 
 			_drawingIndex.length = 0;
 
-			launches.forEach(function(launch){
-				var date = new Date(launch.date),
-					x = (date - startDate) * horizontalScale,
-					y = height - groundHeight;
+			return Promise.all(
+				launches.map(function(launch){
+					var date = new Date(launch.date),
+						x = (date - startDate) * horizontalScale,
+						y = height - groundHeight;
 
-				getImg("img/vehicles/"+launch.image).then(function(img){
-					var w = img.width,
-						h = img.height,
-						vehicleX = x - w/2,
-						numPayloads = launch.payloads.length;
+					return getImg("img/vehicles/"+launch.image).then(function(img){
+						var w = img.width,
+							h = img.height,
+							vehicleX = x - w/2,
+							numPayloads = launch.payloads.length,
+							done;
 
-					_drawingIndex.push({
-						top: (y - h)/2,
-						right: (vehicleX + w)/2,
-						bottom: y/2,
-						left: vehicleX/2,
-						launch: launch
-					});
-
-					ctx.save();
-
-					if(date < now){
-						launch.payloads.forEach(function(payload, index){
-							var alt = orbits[payload.orbit] - spaceAltitude,
-								pxY = Math.log(alt) * postLogScale,
-								y = height - spaceHeight - pxY,
-								payloadOffset = (index - (numPayloads - 1) / 2) * 5,
-								lineX = ((x + payloadOffset) |0) - 0.5;
-
-							if(payload.orbit == "fail"){
-								ctx.strokeStyle = "#EF8037";
-								y = height - spaceHeight + 50;
-							} else {
-								ctx.strokeStyle = "#83D85F";
-							}
-							ctx.lineWidth = 5;
-							ctx.beginPath();
-							ctx.moveTo(lineX, height - h/2);
-							ctx.lineTo(lineX, y);
-							ctx.stroke();
-
-							getImg("img/vehicles/"+payload.image).then(function(img){
-								var w = img.width,
-									h = img.height,
-									payloadX = x + payloadOffset - w/2,
-									payloadY = y - h/2;
-								ctx.drawImage(img, payloadX |0, payloadY |0);
-							});
+						_drawingIndex.push({
+							top: (y - h)/2,
+							right: (vehicleX + w)/2,
+							bottom: y/2,
+							left: vehicleX/2,
+							launch: launch
 						});
-					}
-					else {
-						ctx.globalAlpha = 0.25;
-					}
 
-					ctx.drawImage(img, vehicleX |0, (y - h) |0);
+						ctx.save();
 
-					ctx.restore();
-				}).catch(function(error){
-					console.error(error && error.stack);
-				});
-			});
+						if(date < now){
+							done = Promise.all(
+								launch.payloads.map(function(payload, index){
+									var alt = orbits[payload.orbit] - spaceAltitude,
+										pxY = Math.log(alt) * postLogScale,
+										y = height - spaceHeight - pxY,
+										payloadOffset = (index - (numPayloads - 1) / 2) * 5,
+										lineX = ((x + payloadOffset) |0) - 0.5;
+
+									if(payload.orbit == "fail"){
+										ctx.strokeStyle = "#EF8037";
+										y = height - spaceHeight + 50;
+									} else {
+										ctx.strokeStyle = "#83D85F";
+									}
+									ctx.lineWidth = 5;
+									ctx.beginPath();
+									ctx.moveTo(lineX, height - h/2);
+									ctx.lineTo(lineX, y);
+									ctx.stroke();
+
+									return getImg("img/vehicles/"+payload.image).then(function(img){
+										var w = img.width,
+											h = img.height,
+											payloadX = x + payloadOffset - w/2,
+											payloadY = y - h/2;
+										ctx.drawImage(img, payloadX |0, payloadY |0);
+									});
+								})
+							);
+						}
+						else if(!option.showFuture) {
+							return;
+						}
+						else {
+							ctx.globalAlpha = 0.25;
+							done = Promise.resolve();
+						}
+
+						ctx.drawImage(img, vehicleX |0, (y - h) |0);
+
+						ctx.restore();
+
+						return done;
+					}).catch(function(error){
+						console.error(error && error.stack);
+					});
+				})
+			);
+		}).then(function(){
+			downloadBtn.attr("href", ctx.canvas.toDataURL());
 		});
 	}
 
