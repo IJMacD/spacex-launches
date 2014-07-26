@@ -88,7 +88,8 @@ $(function(){
 							var alt = orbits[payload.orbit] - 240,
 								pxY = Math.log(alt) * 25,
 								y = height - spaceHeight - pxY,
-								payloadOffset = (index - (numPayloads - 1) / 2) * 5;
+								payloadOffset = (index - (numPayloads - 1) / 2) * 5,
+								lineX = ((x + payloadOffset) |0) - 0.5;
 
 							if(payload.orbit == "fail"){
 								ctx.strokeStyle = "#EF8037";
@@ -98,8 +99,8 @@ $(function(){
 							}
 							ctx.lineWidth = 5;
 							ctx.beginPath();
-							ctx.moveTo(x + payloadOffset, height - h/2);
-							ctx.lineTo(x + payloadOffset, y);
+							ctx.moveTo(lineX, height - h/2);
+							ctx.lineTo(lineX, y);
 							ctx.stroke();
 
 							getImg("img/vehicles/"+payload.image).then(function(img){
@@ -107,7 +108,7 @@ $(function(){
 									h = img.height,
 									payloadX = x + payloadOffset - w/2,
 									payloadY = y - h/2;
-								ctx.drawImage(img, payloadX, payloadY);
+								ctx.drawImage(img, payloadX |0, payloadY |0);
 							});
 						});
 					}
@@ -115,7 +116,7 @@ $(function(){
 						ctx.globalAlpha = 0.25;
 					}
 
-					ctx.drawImage(img, vehicleX, y - h);
+					ctx.drawImage(img, vehicleX |0, (y - h) |0);
 
 					ctx.restore();
 				}).catch(function(error){
