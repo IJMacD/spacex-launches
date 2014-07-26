@@ -48,13 +48,17 @@ $(function(){
 	});
 
 	function draw(){
-		_launches.then(function(launches){
+		Promise.all([
+			_launches,
+			getImg("img/stars.png")
+		]).then(function(args){
+			var launches = args[0],
+				stars = args[1];
+
+			drawTiledBackground(stars, 0, 0, width, height - spaceHeight);
 
 			ctx.fillStyle = "#919EAA";
-			ctx.fillRect(0, 0, width, height);
-
-			ctx.fillStyle = "#27303A";
-			ctx.fillRect(0, 0, width, height - spaceHeight);
+			ctx.fillRect(0, height - spaceHeight, width, height);
 
 			_drawingIndex.length = 0;
 
@@ -63,7 +67,7 @@ $(function(){
 					x = (date - startDate) * horizontalScale,
 					y = height;
 
-				getImg("vehicles/"+launch.image).then(function(img){
+				getImg("img/vehicles/"+launch.image).then(function(img){
 					var w = img.width,
 						h = img.height,
 						vehicleX = x - w/2,
@@ -98,7 +102,7 @@ $(function(){
 							ctx.lineTo(x + payloadOffset, y);
 							ctx.stroke();
 
-							getImg("vehicles/"+payload.image).then(function(img){
+							getImg("img/vehicles/"+payload.image).then(function(img){
 								var w = img.width,
 									h = img.height,
 									payloadX = x + payloadOffset - w/2,
@@ -119,6 +123,26 @@ $(function(){
 				});
 			});
 		});
+	}
+
+	function drawTiledBackground(img, left, top, right, bottom){
+		var imgWidth = img.width,
+			imgHeight = img.height,
+			x, y;
+
+		ctx.save();
+
+		ctx.rect(left, top, right - left, bottom - top);
+
+		ctx.clip();
+
+		for(y = top; y < bottom; y += imgHeight){
+			for(x = left; x < right; x += imgWidth){
+				ctx.drawImage(img, x, y);
+			}
+		}
+
+		ctx.restore();
 	}
 
 	function getImg(name){
