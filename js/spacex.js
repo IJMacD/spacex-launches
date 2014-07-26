@@ -15,71 +15,111 @@ $(function(){
 			"GTO": 40000
 		},
 
-		_images = {};
+		_images = {},
+		_launches = Promise.resolve($.get("launches.json")),
+		_drawingIndex = [];
 
 	canvas[0].width = width;
 	canvas[0].height = height;
 
-	ctx.fillStyle = "#919EAA";
-	ctx.fillRect(0, 0, width, height);
+	_launches.then(draw);
 
-	ctx.fillStyle = "#27303A";
-	ctx.fillRect(0, 0, width, height - spaceHeight);
+	var $tooltip = $("<div class='tooltip top in'><div class='tooltip-inner'></div></div>").hide().appendTo('body');
+	var previousPoint = null;
 
-	$.get("launches.json", function(launches){
-		launches.forEach(function(launch){
-			var date = new Date(launch.date),
-				x = (date - startDate) * horizontalScale,
-				y = height;
+	canvas.on('mousemove', function (event) {
+		var eventX = event.offsetX,
+			eventY = event.offsetY,
+			hit = getHover(eventX, eventY),
+			launch;
+		if(hit) {
+			launch = hit.launch;
+			if (previousPoint != launch) {
+				previousPoint = launch;
+				var tip = launch.date;
+				$tooltip.show().children(0).text(tip);
+			}
+			$tooltip.css({top:event.pageY + 10, left:event.pageX + 10});
+		} else {
+			$tooltip.hide();
+			previousPoint = null;
+		}
 
-			getImg("vehicles/"+launch.image).then(function(img){
-				var w = img.width,
-					h = img.height,
-					vehicleX = x - w/2,
-					numPayloads = launch.payloads.length;
-
-				ctx.save();
-
-				if(date < now){
-					launch.payloads.forEach(function(payload, index){
-						var alt = orbits[payload.orbit] - 240,
-							pxY = Math.log(alt) * 25,
-							y = height - spaceHeight - pxY,
-							payloadOffset = (index - (numPayloads - 1) / 2) * 5;
-
-						if(payload.orbit == "fail"){
-							ctx.strokeStyle = "#EF8037";
-							y = height - spaceHeight + 50;
-						} else {
-							ctx.strokeStyle = "#83D85F";
-						}
-						ctx.lineWidth = 5;
-						ctx.beginPath();
-						ctx.moveTo(x + payloadOffset, height - h/2);
-						ctx.lineTo(x + payloadOffset, y);
-						ctx.stroke();
-
-						getImg("vehicles/"+payload.image).then(function(img){
-							var w = img.width,
-								h = img.height,
-								payloadX = x + payloadOffset - w/2,
-								payloadY = y - h/2;
-							ctx.drawImage(img, payloadX, payloadY);
-						});
-					});
-				}
-				else {
-					ctx.globalAlpha = 0.25;
-				}
-
-				ctx.drawImage(img, vehicleX, y - h);
-
-				ctx.restore();
-			}).catch(function(error){
-				console.error(error && error.stack);
-			});
-		})
 	});
+
+	function draw(){
+		_launches.then(function(launches){
+
+			ctx.fillStyle = "#919EAA";
+			ctx.fillRect(0, 0, width, height);
+
+			ctx.fillStyle = "#27303A";
+			ctx.fillRect(0, 0, width, height - spaceHeight);
+
+			_drawingIndex.length = 0;
+
+			launches.forEach(function(launch){
+				var date = new Date(launch.date),
+					x = (date - startDate) * horizontalScale,
+					y = height;
+
+				getImg("vehicles/"+launch.image).then(function(img){
+					var w = img.width,
+						h = img.height,
+						vehicleX = x - w/2,
+						numPayloads = launch.payloads.length;
+
+					_drawingIndex.push({
+						top: (y - h)/2,
+						right: (vehicleX + w)/2,
+						bottom: y/2,
+						left: vehicleX/2,
+						launch: launch
+					});
+
+					ctx.save();
+
+					if(date < now){
+						launch.payloads.forEach(function(payload, index){
+							var alt = orbits[payload.orbit] - 240,
+								pxY = Math.log(alt) * 25,
+								y = height - spaceHeight - pxY,
+								payloadOffset = (index - (numPayloads - 1) / 2) * 5;
+
+							if(payload.orbit == "fail"){
+								ctx.strokeStyle = "#EF8037";
+								y = height - spaceHeight + 50;
+							} else {
+								ctx.strokeStyle = "#83D85F";
+							}
+							ctx.lineWidth = 5;
+							ctx.beginPath();
+							ctx.moveTo(x + payloadOffset, height - h/2);
+							ctx.lineTo(x + payloadOffset, y);
+							ctx.stroke();
+
+							getImg("vehicles/"+payload.image).then(function(img){
+								var w = img.width,
+									h = img.height,
+									payloadX = x + payloadOffset - w/2,
+									payloadY = y - h/2;
+								ctx.drawImage(img, payloadX, payloadY);
+							});
+						});
+					}
+					else {
+						ctx.globalAlpha = 0.25;
+					}
+
+					ctx.drawImage(img, vehicleX, y - h);
+
+					ctx.restore();
+				}).catch(function(error){
+					console.error(error && error.stack);
+				});
+			});
+		});
+	}
 
 	function getImg(name){
 		if(!_images[name]){
@@ -97,5 +137,17 @@ $(function(){
 		}
 
 		return _images[name];
+	}
+
+	function getHover(x, y){
+		var result;
+		_drawingIndex.forEach(function(item){
+			if(x > item.left && x <= item.right
+				&& y > item.top && y <= item.bottom){
+				result = item;
+				return false;
+			}
+		});
+		return result;
 	}
 });

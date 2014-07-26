@@ -4,6 +4,9 @@
 		<link rel="stylesheet" href="css/bootstrap.min.css" />
 		<link rel="stylesheet" href="css/bootstrap-theme.min.css" />
 		<style>
+			.container {
+				overflow-x: auto;
+			}
 			canvas {
 				height: 400px;
 				width: 1500px;
@@ -11,7 +14,12 @@
 		</style>
 	</head>
 	<body>
-		<canvas></canvas>
+		<div class="container">
+			<h1>SpaceX Falcon 9 Launches</h1>
+		</div>
+		<div class="container">
+			<canvas></canvas>
+		</div>
 		<script src="js/jquery-2.1.1.min.js"></script>
 		<script src="js/spacex.js"></script>
 	</body>
