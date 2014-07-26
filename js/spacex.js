@@ -11,6 +11,9 @@ $(function(){
 		spaceAltitude = 245,
 		spaceHeight = 600,
 		groundHeight = 50,
+		option = {
+			spaceGradient: false
+		},
 
 		orbits = {
 			"LEO": 250,
@@ -56,11 +59,21 @@ $(function(){
 			getImg("img/stars.png")
 		]).then(function(args){
 			var launches = args[0],
-				stars = args[1];
+				stars = args[1],
+				grad;
 
 			drawTiledBackground(stars, 0, 0, width, height - spaceHeight);
 
-			ctx.fillStyle = "#919EAA";
+			if(option.spaceGradient){
+				grad = ctx.createLinearGradient(0, height - spaceHeight, 0, height - spaceHeight + 20);
+				grad.addColorStop(0, "#27303A");
+				grad.addColorStop(1, "#919EAA");
+
+				ctx.fillStyle = grad;
+			}
+			else {
+				ctx.fillStyle = "#919EAA";
+			}
 			ctx.fillRect(0, height - spaceHeight, width, height - groundHeight);
 
 			ctx.fillStyle = "#98BB71";
