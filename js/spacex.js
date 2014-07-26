@@ -7,7 +7,10 @@ $(function(){
 		now = new Date(),
 		startDate = new Date("2010-05-14"),
 		horizontalScale = 600 / (365 * 24 * 60 * 60 * 1000), // 100 pixels per year
-		spaceHeight = 500,
+		postLogScale = 30,
+		spaceAltitude = 245,
+		spaceHeight = 600,
+		groundHeight = 50,
 
 		orbits = {
 			"LEO": 250,
@@ -58,14 +61,17 @@ $(function(){
 			drawTiledBackground(stars, 0, 0, width, height - spaceHeight);
 
 			ctx.fillStyle = "#919EAA";
-			ctx.fillRect(0, height - spaceHeight, width, height);
+			ctx.fillRect(0, height - spaceHeight, width, height - groundHeight);
+
+			ctx.fillStyle = "#98BB71";
+			ctx.fillRect(0, height - groundHeight, width, height);
 
 			_drawingIndex.length = 0;
 
 			launches.forEach(function(launch){
 				var date = new Date(launch.date),
 					x = (date - startDate) * horizontalScale,
-					y = height;
+					y = height - groundHeight;
 
 				getImg("img/vehicles/"+launch.image).then(function(img){
 					var w = img.width,
@@ -85,8 +91,8 @@ $(function(){
 
 					if(date < now){
 						launch.payloads.forEach(function(payload, index){
-							var alt = orbits[payload.orbit] - 240,
-								pxY = Math.log(alt) * 25,
+							var alt = orbits[payload.orbit] - spaceAltitude,
+								pxY = Math.log(alt) * postLogScale,
 								y = height - spaceHeight - pxY,
 								payloadOffset = (index - (numPayloads - 1) / 2) * 5,
 								lineX = ((x + payloadOffset) |0) - 0.5;
