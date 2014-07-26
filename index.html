@@ -11,6 +11,15 @@
 				height: 400px;
 				width: 1500px;
 			}
+			:-webkit-full-screen {
+				height: 100%;
+				padding: 0;
+				width: 100%;
+			}
+			:-webkit-full-screen canvas {
+				height: auto;
+				width: auto;
+			}
 		</style>
 	</head>
 	<body>
@@ -19,6 +28,9 @@
 		</div>
 		<div class="container">
 			<canvas></canvas>
+		</div>
+		<div class="container">
+			<button class="btn btn-primary" id="fullscreen-btn">Fullscreen</button>
 		</div>
 		<script src="js/jquery-2.1.1.min.js"></script>
 		<script src="js/spacex.js"></script>

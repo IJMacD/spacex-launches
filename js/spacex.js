@@ -47,6 +47,10 @@ $(function(){
 
 	});
 
+	$('#fullscreen-btn').on("click", function(){
+		canvas.parent()[0].webkitRequestFullscreen();
+	});
+
 	function draw(){
 		Promise.all([
 			_launches,
