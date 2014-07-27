@@ -11,6 +11,7 @@ $(function(){
 		heightRange = $('#height-range'),
 		heightText = $('#height-value'),
 		futureCheck = $('#future-check'),
+		nowCheck = $('#now-check'),
 		tooltip = $("<div class='tooltip top in'><div class='tooltip-inner'></div></div>").hide().appendTo('body'),
 
 		/*
@@ -20,6 +21,7 @@ $(function(){
 			width: canvas.width() * 2,
 			height: canvas.height() * 2,
 			showFuture: true,
+			showNowMarker: true,
 			spaceGradient: true
 		},
 
@@ -153,8 +155,16 @@ $(function(){
 		}
 	});
 
-	futureCheck.on("change", function(){
-		option.showFuture = futureCheck.is(":checked");
+	futureCheck.on("click", function(){
+		// opposite because class hasn't been changed yet
+		option.showFuture = !futureCheck.hasClass("active");
+
+		draw();
+	});
+
+	nowCheck.on("click", function(){
+		// opposite because class hasn't been changed yet
+		option.showNowMarker = !nowCheck.hasClass("active");
 
 		draw();
 	});
@@ -201,6 +211,10 @@ $(function(){
 			ctx.fillRect(0, height - groundHeight, width, height);
 
 			drawAxis();
+
+			if(option.showNowMarker){
+				drawNowMarker();
+			}
 
 			_drawingIndex.length = 0;
 
@@ -330,6 +344,29 @@ $(function(){
 			flip = !flip;
 			year++;
 		};
+
+		ctx.restore();
+	}
+
+	function drawNowMarker(){
+		var x = (now - startDate) * horizontalScale,
+			y = option.height - groundHeight;
+
+		ctx.save();
+
+		ctx.fillStyle = "#ff0000";
+
+		ctx.translate(x, y);
+
+		ctx.scale(5, 5);
+
+		ctx.beginPath();
+		ctx.moveTo(0, 0);
+		ctx.lineTo(1, 2);
+		ctx.lineTo(-1, 2);
+		ctx.closePath();
+
+		ctx.fill();
 
 		ctx.restore();
 	}
