@@ -178,37 +178,20 @@ $(function(){
 		var width = option.width,
 			height = option.height;
 
-		canvas[0].width = width;
-		canvas[0].height = height;
-
-		horizontalScale = width / (option.endDate - option.startDate);
-
-		postLogScale = (height - option.spaceHeight - 50) / Math.log(orbits.GTO);
+		setCanvasSize(width, height);
 
 		Promise.all([
 			_launches,
 			getImg("img/stars.png")
 		]).then(function(args){
 			var launches = args[0],
-				stars = args[1],
-				grad;
+				stars = args[1];
 
 			drawTiledBackground(stars, 0, 0, width, height - option.spaceHeight);
 
-			if(option.spaceGradient){
-				grad = ctx.createLinearGradient(0, height - option.spaceHeight, 0, height - option.spaceHeight + 20);
-				grad.addColorStop(0, "#27303A");
-				grad.addColorStop(1, "#919EAA");
+			drawSky();
 
-				ctx.fillStyle = grad;
-			}
-			else {
-				ctx.fillStyle = "#919EAA";
-			}
-			ctx.fillRect(0, height - option.spaceHeight, width, height - option.groundHeight);
-
-			ctx.fillStyle = "#98BB71";
-			ctx.fillRect(0, height - option.groundHeight, width, height);
+			drawGround();
 
 			drawAxis();
 
@@ -218,84 +201,23 @@ $(function(){
 
 			_drawingIndex.length = 0;
 
-			return Promise.all(
-				launches.map(function(launch){
-					var date = new Date(launch.date),
-						x = (date - option.startDate) * horizontalScale,
-						y = height - option.groundHeight;
+			return Promise.all(launches.map(drawLaunch));
 
-					return getImg("img/vehicles/"+launch.image).then(function(img){
-						var w = img.width,
-							h = img.height,
-							vehicleX = x - w/2,
-							numPayloads = launch.payloads.length,
-							done;
-
-						ctx.save();
-
-
-						if(date > now){
-
-							if(!option.showFuture){
-								return;
-							}
-
-							ctx.globalAlpha = 0.25;
-							done = Promise.resolve();
-						}
-						else {
-							done = Promise.all(
-								launch.payloads.map(function(payload, index){
-									var alt = orbits[payload.orbit] - option.spaceAltitude,
-										pxY = Math.log(alt) * postLogScale,
-										y = height - option.spaceHeight - pxY,
-										payloadOffset = (index - (numPayloads - 1) / 2) * 5,
-										lineX = ((x + payloadOffset) |0) - 0.5;
-
-									if(payload.orbit == "fail"){
-										ctx.strokeStyle = "#EF8037";
-										y = height - option.spaceHeight + 50;
-									} else {
-										ctx.strokeStyle = "#83D85F";
-									}
-									ctx.lineWidth = 5;
-									ctx.beginPath();
-									ctx.moveTo(lineX, height - h/2);
-									ctx.lineTo(lineX, y);
-									ctx.stroke();
-
-									return getImg("img/vehicles/"+payload.image).then(function(img){
-										var w = img.width,
-											h = img.height,
-											payloadX = x + payloadOffset - w/2,
-											payloadY = y - h/2;
-										ctx.drawImage(img, payloadX |0, payloadY |0);
-									});
-								})
-							);
-						}
-
-						_drawingIndex.push({
-							top: (y - h)/2,
-							right: (vehicleX + w)/2,
-							bottom: y/2,
-							left: vehicleX/2,
-							launch: launch
-						});
-
-						ctx.drawImage(img, vehicleX |0, (y - h) |0);
-
-						ctx.restore();
-
-						return done;
-					}).catch(function(error){
-						console.error(error && error.stack);
-					});
-				})
-			);
 		}).then(function(){
 			downloadBtn.attr("href", ctx.canvas.toDataURL());
+		}).catch(function(err){
+			console.error(error && error.stack);
 		});
+	}
+
+	function setCanvasSize(width, height){
+
+		canvas[0].width = width;
+		canvas[0].height = height;
+
+		horizontalScale = width / (option.endDate - option.startDate);
+
+		postLogScale = (height - option.spaceHeight - 50) / Math.log(orbits.GTO);
 	}
 
 	function drawTiledBackground(img, left, top, right, bottom){
@@ -316,6 +238,27 @@ $(function(){
 		}
 
 		ctx.restore();
+	}
+
+	function drawSky(){
+		var grad;
+
+		if(option.spaceGradient){
+			grad = ctx.createLinearGradient(0, option.height - option.spaceHeight, 0, option.height - option.spaceHeight + 20);
+			grad.addColorStop(0, "#27303A");
+			grad.addColorStop(1, "#919EAA");
+
+			ctx.fillStyle = grad;
+		}
+		else {
+			ctx.fillStyle = "#919EAA";
+		}
+		ctx.fillRect(0, option.height - option.spaceHeight, option.width, option.height - option.groundHeight);
+	}
+
+	function drawGround(){
+		ctx.fillStyle = "#98BB71";
+		ctx.fillRect(0, option.height - option.groundHeight, option.width, option.height);
 	}
 
 	function drawAxis(){
@@ -369,6 +312,86 @@ $(function(){
 		ctx.fill();
 
 		ctx.restore();
+	}
+
+	function drawLaunch(launch){
+		var date = new Date(launch.date),
+			x = (date - option.startDate) * horizontalScale,
+			y = option.height - option.groundHeight;
+
+		return getImg("img/vehicles/"+launch.image).then(function(img){
+			var w = img.width,
+				h = img.height,
+				vehicleX = x - w/2,
+				vehicleY = y - h,
+				numPayloads = launch.payloads.length,
+				done;
+
+			ctx.save();
+
+
+			if(date > now){
+
+				if(!option.showFuture){
+					return;
+				}
+
+				ctx.globalAlpha = 0.25;
+				done = Promise.resolve();
+			}
+			else {
+				done = Promise.all(launch.payloads.map(function(payload, index){
+					var payloadOffset = (index - (numPayloads - 1) / 2) * 5,
+						payloadX = ((x + payloadOffset) |0) - 0.5;
+					return drawPayload(payload, payloadX);
+				}));
+			}
+
+			// These are all divided by two to compensate for the fact
+			// the canvas is scaled to half size for on-screen preview
+			_drawingIndex.push({
+				top: vehicleY/2,
+				right: (vehicleX + w)/2,
+				bottom: y/2,
+				left: vehicleX/2,
+				launch: launch
+			});
+
+			// The '|0' trick is to convert to int i.e. Math.floor()
+			ctx.drawImage(img, vehicleX |0, vehicleY |0);
+
+			ctx.restore();
+
+			return done;
+		}).catch(function(error){
+			console.error(error && error.stack);
+		});
+	}
+
+	function drawPayload(payload, x){
+		var alt = orbits[payload.orbit] - option.spaceAltitude,
+			pxY = Math.log(alt) * postLogScale,
+			y = option.height - option.spaceHeight - pxY;
+
+		if(payload.orbit == "fail"){
+			ctx.strokeStyle = "#EF8037";
+			y = option.height - option.spaceHeight + 50;
+		} else {
+			ctx.strokeStyle = "#83D85F";
+		}
+		ctx.lineWidth = 5;
+		ctx.beginPath();
+		ctx.moveTo(x, option.height - option.groundHeight - 50);
+		ctx.lineTo(x, y);
+		ctx.stroke();
+
+		return getImg("img/vehicles/"+payload.image).then(function(img){
+			var w = img.width,
+				h = img.height,
+				payloadX = x - w/2,
+				payloadY = y - h/2;
+			ctx.drawImage(img, payloadX |0, payloadY |0);
+		});
 	}
 
 	/*
