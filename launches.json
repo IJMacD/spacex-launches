@@ -1,7 +1,7 @@
 [
 	{
 		"date": "2010-06-04T18:45:00",
-		"image": "falcon9-1-dragon-notrunk.png",
+		"image": "falcon9-1.0-dragon-notrunk.png",
 		"payloads": [
 			{
 				"name": "Dragon Spacecraft Qualification Unit",
@@ -12,7 +12,7 @@
 	},
 	{
 		"date": "2010-12-08T15:43:00",
-		"image": "falcon9-1-dragon-notrunk.png",
+		"image": "falcon9-1.0-dragon-notrunk.png",
 		"payloads": [
 			{
 				"name": "NASA COTS – Demo 1",
@@ -23,7 +23,7 @@
 	},
 	{
 		"date": "2012-05-22T07:44:00",
-		"image": "falcon9-1-dragon.png",
+		"image": "falcon9-1.0-dragon.png",
 		"payloads": [
 			{
 				"name": "NASA COTS – Demo C2+",
@@ -34,7 +34,7 @@
 	},
 	{
 		"date": "2012-10-08T00:35:00",
-		"image": "falcon9-1-dragon.png",
+		"image": "falcon9-1.0-dragon.png",
 		"payloads": [
 			{
 				"name": "SpaceX CRS-1",
@@ -50,7 +50,7 @@
 	},
 	{
 		"date": "2013-04-01T15:10:00",
-		"image": "falcon9-1-dragon.png",
+		"image": "falcon9-1.0-dragon.png",
 		"payloads": [
 			{
 				"name": "SpaceX CRS-2",

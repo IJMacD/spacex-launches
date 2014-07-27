@@ -8,10 +8,10 @@ $(function(){
 
 		now = new Date(),
 		startDate = new Date("2010-05-14"),
-		horizontalScale = 600 / (365 * 24 * 60 * 60 * 1000), // 100 pixels per year
-		postLogScale = 30,
+		horizontalScale = 500 / (365 * 24 * 60 * 60 * 1000), // 100 pixels per year
+		postLogScale = 20,
 		spaceAltitude = 245,
-		spaceHeight = 600,
+		spaceHeight = 450,
 		groundHeight = 50,
 		option = {
 			showFuture: true,
@@ -222,7 +222,10 @@ $(function(){
 					resolve(i);
 				};
 
-				i.onerror = reject;
+				i.onerror = function(e){
+					console.warn("Couldn't load image: " + name);
+					reject(e);
+				}
 
 				i.src = name;
 			});
