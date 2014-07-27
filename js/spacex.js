@@ -394,15 +394,14 @@ $(function(){
 				}
 
 				ctx.globalAlpha = option.ghostOpacity;
-				done = Promise.resolve();
 			}
-			else {
-				done = Promise.all(launch.payloads.map(function(payload, index){
-					var payloadOffset = (index - (numPayloads - 1) / 2) * 5,
-						payloadX = ((x + payloadOffset) |0) - 0.5;
-					return drawPayload(payload, payloadX);
-				}));
-			}
+
+			done = Promise.all(launch.payloads.map(function(payload, index){
+				var payloadOffset = (index - (numPayloads - 1) / 2) * 5,
+					payloadX = ((x + payloadOffset) |0) - 0.5;
+				return drawPayload(payload, payloadX, date > now);
+			}));
+
 
 			// These are all divided by two to compensate for the fact
 			// the canvas is scaled to half size for on-screen preview
@@ -425,7 +424,7 @@ $(function(){
 		});
 	}
 
-	function drawPayload(payload, x){
+	function drawPayload(payload, x, ghost){
 		var y = orbitToPixels(orbits[payload.orbit]);
 
 		if(payload.orbit == "fail"){
@@ -456,7 +455,15 @@ $(function(){
 				target: payload
 			});
 
+			ctx.save();
+
+			if(ghost){
+				ctx.globalAlpha = option.ghostOpacity;
+			}
+
 			ctx.drawImage(img, payloadX |0, payloadY |0);
+
+			ctx.restore();
 		});
 	}
 
