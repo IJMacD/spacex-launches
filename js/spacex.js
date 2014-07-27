@@ -12,6 +12,7 @@ $(function(){
 		heightText = $('#height-value'),
 		futureCheck = $('#future-check'),
 		nowCheck = $('#now-check'),
+		orbitCheck = $('#orbit-check'),
 		tooltip = $("<div class='tooltip top in'><div class='tooltip-inner'></div></div>").hide().appendTo('body'),
 
 		/*
@@ -29,6 +30,7 @@ $(function(){
 			height: canvas.height() * 2,
 			showFuture: true,
 			showNowMarker: true,
+			showOrbits: true,
 			spaceGradient: true,
 			startDate: new Date("2010-05-14"), // approx one monthe before first falcon 9 flight
 			endDate: new Date(now.getFullYear() + 1, now.getMonth(), now.getDate()), // one year from today's date
@@ -169,6 +171,13 @@ $(function(){
 		draw();
 	});
 
+	orbitCheck.on("click", function(){
+		// opposite because class hasn't been changed yet
+		option.showOrbits = !orbitCheck.hasClass("active");
+
+		draw();
+	});
+
 	/*
 	 * Drawing functions
 	 */
@@ -188,6 +197,10 @@ $(function(){
 				stars = args[1];
 
 			drawTiledBackground(stars, 0, 0, width, height - option.spaceHeight);
+
+			if(option.showOrbits){
+				drawOrbits();
+			}
 
 			drawSky();
 
@@ -234,6 +247,36 @@ $(function(){
 		for(y = top; y < bottom; y += imgHeight){
 			for(x = left; x < right; x += imgWidth){
 				ctx.drawImage(img, x, y);
+			}
+		}
+
+		ctx.restore();
+	}
+
+	function drawOrbits(){
+		var orbit,
+			altitude,
+			y;
+
+		ctx.save();
+
+		ctx.strokeStyle = "rgba(255,255,255,0.137)";
+		ctx.lineWidth = 4;
+
+		ctx.fillStyle = "rgba(255,255,255,0.137)";
+		ctx.font = "20px monospace";
+
+		for (orbit in orbits){
+			if(orbits.hasOwnProperty(orbit)){
+				y = (orbitToPixels(orbits[orbit]) |0);
+
+				ctx.beginPath();
+
+				dashedLine(0, y, option.width, y, 12);
+
+				ctx.stroke();
+
+				ctx.fillText(orbit, 10, y - 10);
 			}
 		}
 
@@ -369,9 +412,7 @@ $(function(){
 	}
 
 	function drawPayload(payload, x){
-		var alt = orbits[payload.orbit] - option.spaceAltitude,
-			pxY = Math.log(alt) * postLogScale,
-			y = option.height - option.spaceHeight - pxY;
+		var y = orbitToPixels(orbits[payload.orbit]);
 
 		if(payload.orbit == "fail"){
 			ctx.strokeStyle = "#EF8037";
@@ -392,6 +433,26 @@ $(function(){
 				payloadY = y - h/2;
 			ctx.drawImage(img, payloadX |0, payloadY |0);
 		});
+	}
+
+	// http://stackoverflow.com/a/15968095/1228394
+	function dashedLine(x1, y1, x2, y2, dashLen) {
+		if (dashLen == undefined) dashLen = 2;
+		ctx.moveTo(x1, y1);
+
+		var dX = x2 - x1,
+			dY = y2 - y1,
+			dashes = Math.floor(Math.sqrt(dX * dX + dY * dY) / dashLen),
+			dashX = dX / dashes,
+			dashY = dY / dashes;
+
+		var q = 0;
+		while (q++ < dashes) {
+			x1 += dashX;
+			y1 += dashY;
+			ctx[q % 2 == 0 ? 'moveTo' : 'lineTo'](x1, y1);
+		}
+		ctx[q % 2 == 0 ? 'moveTo' : 'lineTo'](x2, y2);
 	}
 
 	/*
@@ -429,5 +490,12 @@ $(function(){
 			}
 		});
 		return result;
+	}
+
+	function orbitToPixels(altitude){
+		var alt = altitude - option.spaceAltitude,
+			pxY = Math.log(alt) * postLogScale,
+			y = option.height - option.spaceHeight - pxY;
+		return y;
 	}
 });
