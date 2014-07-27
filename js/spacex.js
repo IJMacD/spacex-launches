@@ -119,6 +119,12 @@ $(function(){
 		}
 	});
 
+	futureCheck.on("change", function(){
+		option.showFuture = futureCheck.is(":checked");
+
+		draw();
+	});
+
 	function draw(){
 
 		var width = option.width,
@@ -169,17 +175,19 @@ $(function(){
 							numPayloads = launch.payloads.length,
 							done;
 
-						_drawingIndex.push({
-							top: (y - h)/2,
-							right: (vehicleX + w)/2,
-							bottom: y/2,
-							left: vehicleX/2,
-							launch: launch
-						});
-
 						ctx.save();
 
-						if(date < now){
+
+						if(date > now){
+
+							if(!option.showFuture){
+								return;
+							}
+
+							ctx.globalAlpha = 0.25;
+							done = Promise.resolve();
+						}
+						else {
 							done = Promise.all(
 								launch.payloads.map(function(payload, index){
 									var alt = orbits[payload.orbit] - spaceAltitude,
@@ -210,13 +218,14 @@ $(function(){
 								})
 							);
 						}
-						else if(!option.showFuture) {
-							return;
-						}
-						else {
-							ctx.globalAlpha = 0.25;
-							done = Promise.resolve();
-						}
+
+						_drawingIndex.push({
+							top: (y - h)/2,
+							right: (vehicleX + w)/2,
+							bottom: y/2,
+							left: vehicleX/2,
+							launch: launch
+						});
 
 						ctx.drawImage(img, vehicleX |0, (y - h) |0);
 
