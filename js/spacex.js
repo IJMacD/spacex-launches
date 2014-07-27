@@ -15,6 +15,13 @@ $(function(){
 		tooltip = $("<div class='tooltip top in'><div class='tooltip-inner'></div></div>").hide().appendTo('body'),
 
 		/*
+		 * Parameters
+		 */
+		now = new Date(),
+		horizontalScale, // (px / ms) pixels per millisecond, x-axis time scale
+		postLogScale, // vertical scaling of space at top of image
+
+		/*
 		 * Configuration
 		 */
 		option = {
@@ -22,20 +29,13 @@ $(function(){
 			height: canvas.height() * 2,
 			showFuture: true,
 			showNowMarker: true,
-			spaceGradient: true
+			spaceGradient: true,
+			startDate: new Date("2010-05-14"), // approx one monthe before first falcon 9 flight
+			endDate: new Date(now.getFullYear() + 1, now.getMonth(), now.getDate()), // one year from today's date
+			spaceAltitude: 245, // (km) base of space in km, pre-log translation
+			spaceHeight: 450, // (px) pixels to the base of space from the bottom of the image
+			groundHeight: 50 // (px) pixels to the top of the ground from the bottom of the image
 		},
-
-		/*
-		 * Parameters
-		 */
-		now = new Date(),
-		startDate = new Date("2010-05-14"), // approx one monthe before first falcon 9 flight
-		endDate = new Date(now.getFullYear() + 1, now.getMonth(), now.getDate()), // one year from today's date
-		horizontalScale, // (px / ms) pixels per millisecond, x-axis time scale
-		postLogScale, // vertical scaling of space at top of image
-		spaceAltitude = 245, // (km) base of space in km, pre-log translation
-		spaceHeight = 450, // (px) pixels to the base of space from the bottom of the image
-		groundHeight = 50, // (px) pixels to the top of the ground from the bottom of the image,
 
 		/*
 		 * General placeholder orbits if we don't have better information
@@ -181,9 +181,9 @@ $(function(){
 		canvas[0].width = width;
 		canvas[0].height = height;
 
-		horizontalScale = width / (endDate - startDate);
+		horizontalScale = width / (option.endDate - option.startDate);
 
-		postLogScale = (height - spaceHeight - 50) / Math.log(orbits.GTO);
+		postLogScale = (height - option.spaceHeight - 50) / Math.log(orbits.GTO);
 
 		Promise.all([
 			_launches,
@@ -193,10 +193,10 @@ $(function(){
 				stars = args[1],
 				grad;
 
-			drawTiledBackground(stars, 0, 0, width, height - spaceHeight);
+			drawTiledBackground(stars, 0, 0, width, height - option.spaceHeight);
 
 			if(option.spaceGradient){
-				grad = ctx.createLinearGradient(0, height - spaceHeight, 0, height - spaceHeight + 20);
+				grad = ctx.createLinearGradient(0, height - option.spaceHeight, 0, height - option.spaceHeight + 20);
 				grad.addColorStop(0, "#27303A");
 				grad.addColorStop(1, "#919EAA");
 
@@ -205,10 +205,10 @@ $(function(){
 			else {
 				ctx.fillStyle = "#919EAA";
 			}
-			ctx.fillRect(0, height - spaceHeight, width, height - groundHeight);
+			ctx.fillRect(0, height - option.spaceHeight, width, height - option.groundHeight);
 
 			ctx.fillStyle = "#98BB71";
-			ctx.fillRect(0, height - groundHeight, width, height);
+			ctx.fillRect(0, height - option.groundHeight, width, height);
 
 			drawAxis();
 
@@ -221,8 +221,8 @@ $(function(){
 			return Promise.all(
 				launches.map(function(launch){
 					var date = new Date(launch.date),
-						x = (date - startDate) * horizontalScale,
-						y = height - groundHeight;
+						x = (date - option.startDate) * horizontalScale,
+						y = height - option.groundHeight;
 
 					return getImg("img/vehicles/"+launch.image).then(function(img){
 						var w = img.width,
@@ -246,15 +246,15 @@ $(function(){
 						else {
 							done = Promise.all(
 								launch.payloads.map(function(payload, index){
-									var alt = orbits[payload.orbit] - spaceAltitude,
+									var alt = orbits[payload.orbit] - option.spaceAltitude,
 										pxY = Math.log(alt) * postLogScale,
-										y = height - spaceHeight - pxY,
+										y = height - option.spaceHeight - pxY,
 										payloadOffset = (index - (numPayloads - 1) / 2) * 5,
 										lineX = ((x + payloadOffset) |0) - 0.5;
 
 									if(payload.orbit == "fail"){
 										ctx.strokeStyle = "#EF8037";
-										y = height - spaceHeight + 50;
+										y = height - option.spaceHeight + 50;
 									} else {
 										ctx.strokeStyle = "#83D85F";
 									}
@@ -319,9 +319,9 @@ $(function(){
 	}
 
 	function drawAxis(){
-		var year = startDate.getFullYear(),
+		var year = option.startDate.getFullYear(),
 			yearStart = new Date(year, 0, 1),
-			markerStart = (yearStart - startDate) * horizontalScale,
+			markerStart = (yearStart - option.startDate) * horizontalScale,
 			markerWidth = horizontalScale * (365 * 24 * 60 * 60 * 1000),
 			markerEnd = markerStart + markerWidth,
 			flip = false;
@@ -333,13 +333,13 @@ $(function(){
 		for (; markerStart <= option.width; markerStart += markerWidth) {
 			ctx.strokeStyle = flip ? "#000000" : "#ffffff";
 			ctx.beginPath();
-			ctx.moveTo(markerStart, option.height - groundHeight);
-			ctx.lineTo(markerStart + markerWidth, option.height - groundHeight);
+			ctx.moveTo(markerStart, option.height - option.groundHeight);
+			ctx.lineTo(markerStart + markerWidth, option.height - option.groundHeight);
 			ctx.stroke();
 
 			ctx.fillStyle = "#3E4D2E";
 			ctx.font = "20px monospace";
-			ctx.fillText(year, markerStart, option.height - groundHeight + 20);
+			ctx.fillText(year, markerStart, option.height - option.groundHeight + 20);
 
 			flip = !flip;
 			year++;
@@ -349,8 +349,8 @@ $(function(){
 	}
 
 	function drawNowMarker(){
-		var x = (now - startDate) * horizontalScale,
-			y = option.height - groundHeight;
+		var x = (now - option.startDate) * horizontalScale,
+			y = option.height - option.groundHeight;
 
 		ctx.save();
 
