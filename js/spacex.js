@@ -31,6 +31,7 @@ $(function(){
 			width: canvas.width() * 2,
 			height: canvas.height() * 2,
 			showFuture: true,
+			ghostOpacity: 0.25,
 			showNowMarker: true,
 			showOrbits: true,
 			spaceGradient: true,
@@ -82,12 +83,12 @@ $(function(){
 		var eventX = event.offsetX,
 			eventY = event.offsetY,
 			hit = getHover(eventX, eventY),
-			launch;
+			target;
 		if(hit) {
-			launch = hit.launch;
-			if (_previousPoint != launch) {
-				_previousPoint = launch;
-				var tip = launch.date;
+			target = hit.target;
+			if (_previousPoint != target) {
+				_previousPoint = target;
+				var tip = target.name || target.date;
 				tooltip.show().children(0).text(tip);
 			}
 			tooltip.css({top:event.pageY + 10, left:event.pageX + 10});
@@ -392,7 +393,7 @@ $(function(){
 					return;
 				}
 
-				ctx.globalAlpha = 0.25;
+				ctx.globalAlpha = option.ghostOpacity;
 				done = Promise.resolve();
 			}
 			else {
@@ -406,11 +407,11 @@ $(function(){
 			// These are all divided by two to compensate for the fact
 			// the canvas is scaled to half size for on-screen preview
 			_drawingIndex.push({
+				left: vehicleX/2,
 				top: vehicleY/2,
 				right: (vehicleX + w)/2,
 				bottom: y/2,
-				left: vehicleX/2,
-				launch: launch
+				target: launch
 			});
 
 			// The '|0' trick is to convert to int i.e. Math.floor()
@@ -444,6 +445,17 @@ $(function(){
 				h = img.height,
 				payloadX = x - w/2,
 				payloadY = y - h/2;
+
+			// These are all divided by two to compensate for the fact
+			// the canvas is scaled to half size for on-screen preview
+			_drawingIndex.push({
+				left: payloadX/2,
+				top: payloadY/2,
+				right: (payloadX + w)/2,
+				bottom: (payloadY + h)/2,
+				target: payload
+			});
+
 			ctx.drawImage(img, payloadX |0, payloadY |0);
 		});
 	}
