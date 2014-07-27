@@ -1,4 +1,7 @@
 $(function(){
+		/*
+		 * DOM
+		 */
 	var canvas = $('canvas'),
 		ctx = canvas[0].getContext('2d'),
 
@@ -8,7 +11,11 @@ $(function(){
 		heightRange = $('#height-range'),
 		heightText = $('#height-value'),
 		futureCheck = $('#future-check'),
+		tooltip = $("<div class='tooltip top in'><div class='tooltip-inner'></div></div>").hide().appendTo('body'),
 
+		/*
+		 * Configuration
+		 */
 		option = {
 			width: canvas.width() * 2,
 			height: canvas.height() * 2,
@@ -16,29 +23,55 @@ $(function(){
 			spaceGradient: true
 		},
 
+		/*
+		 * Parameters
+		 */
 		now = new Date(),
-		startDate = new Date("2010-05-14"),
-		endDate = new Date(now.getFullYear() + 1, now.getMonth(), now.getDate()),
-		horizontalScale = option.width / (endDate - startDate),
-		postLogScale = 20,
-		spaceAltitude = 245,
-		spaceHeight = 450,
-		groundHeight = 50,
+		startDate = new Date("2010-05-14"), // approx one monthe before first falcon 9 flight
+		endDate = new Date(now.getFullYear() + 1, now.getMonth(), now.getDate()), // one year from today's date
+		horizontalScale, // (px / ms) pixels per millisecond, x-axis time scale
+		postLogScale, // vertical scaling of space at top of image
+		spaceAltitude = 245, // (km) base of space in km, pre-log translation
+		spaceHeight = 450, // (px) pixels to the base of space from the bottom of the image
+		groundHeight = 50, // (px) pixels to the top of the ground from the bottom of the image,
 
+		/*
+		 * General placeholder orbits if we don't have better information
+		 */
 		orbits = {
 			"LEO": 250,
 			"Polar": 1000,
 			"GTO": 40000
 		},
 
+		/*
+		 * Holds a map of promises for image loading
+		 */
 		_images = {},
+
+		/*
+		 * Promise for loading of launch manifest
+		 */
 		_launches = Promise.resolve($.get("launches.json")),
-		_drawingIndex = [];
+
+		/*
+		 * Cache of drawn objects for tooltip hover
+		 */
+		_drawingIndex = [],
+
+		/*
+		 * Used for tooltip
+		 */
+		_previousPoint;
 
 	_launches.then(draw);
 
-	var $tooltip = $("<div class='tooltip top in'><div class='tooltip-inner'></div></div>").hide().appendTo('body');
-	var previousPoint = null;
+	widthRange.add(widthText).val(option.width);
+	heightRange.add(heightText).val(option.height);
+
+	/*
+	 * Event Handlers
+	 */
 
 	canvas.on('mousemove', function (event) {
 		var eventX = event.offsetX,
@@ -47,15 +80,15 @@ $(function(){
 			launch;
 		if(hit) {
 			launch = hit.launch;
-			if (previousPoint != launch) {
-				previousPoint = launch;
+			if (_previousPoint != launch) {
+				_previousPoint = launch;
 				var tip = launch.date;
-				$tooltip.show().children(0).text(tip);
+				tooltip.show().children(0).text(tip);
 			}
-			$tooltip.css({top:event.pageY + 10, left:event.pageX + 10});
+			tooltip.css({top:event.pageY + 10, left:event.pageX + 10});
 		} else {
-			$tooltip.hide();
-			previousPoint = null;
+			tooltip.hide();
+			_previousPoint = null;
 		}
 
 	});
@@ -126,6 +159,10 @@ $(function(){
 		draw();
 	});
 
+	/*
+	 * Drawing functions
+	 */
+
 	function draw(){
 
 		var width = option.width,
@@ -135,6 +172,8 @@ $(function(){
 		canvas[0].height = height;
 
 		horizontalScale = option.width / (endDate - startDate);
+
+		postLogScale = 30;
 
 		Promise.all([
 			_launches,
@@ -294,6 +333,10 @@ $(function(){
 
 		ctx.restore();
 	}
+
+	/*
+	 * Helper functions
+	 */
 
 	function getImg(name){
 		if(!_images[name]){
