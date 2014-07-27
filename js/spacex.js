@@ -13,6 +13,8 @@ $(function(){
 		futureCheck = $('#future-check'),
 		nowCheck = $('#now-check'),
 		orbitCheck = $('#orbit-check'),
+		startDateText = $('#start-date'),
+		endDateText = $('#end-date'),
 		tooltip = $("<div class='tooltip top in'><div class='tooltip-inner'></div></div>").hide().appendTo('body'),
 
 		/*
@@ -70,8 +72,7 @@ $(function(){
 
 	_launches.then(draw);
 
-	widthRange.add(widthText).val(option.width);
-	heightRange.add(heightText).val(option.height);
+	initControls();
 
 	/*
 	 * Event Handlers
@@ -174,6 +175,18 @@ $(function(){
 	orbitCheck.on("click", function(){
 		// opposite because class hasn't been changed yet
 		option.showOrbits = !orbitCheck.hasClass("active");
+
+		draw();
+	});
+
+	startDateText.on("change", function(){
+		option.startDate = new Date(startDateText.val());
+
+		draw();
+	});
+
+	endDateText.on("change", function(){
+		option.endDate = new Date(endDateText.val());
 
 		draw();
 	});
@@ -458,6 +471,29 @@ $(function(){
 	/*
 	 * Helper functions
 	 */
+
+	 /**
+	  * Make sure controls match up to javascript state
+	  */
+	function initControls(){
+		widthRange.add(widthText).val(option.width);
+		heightRange.add(heightText).val(option.height);
+
+		futureCheck.toggleClass("active", option.showFuture);
+		nowCheck.toggleClass("active", option.showNowMarker);
+		orbitCheck.toggleClass("active", option.showOrbits);
+
+		startDateText.val(formatDate(option.startDate));
+		endDateText.val(formatDate(option.endDate));
+	}
+
+	function formatDate(date){
+		return date.getFullYear() + "-" + pad(date.getMonth() + 1) + "-" + pad(date.getDate());
+	}
+
+	function pad(s){
+		return s<10?"0"+s:s;
+	}
 
 	function getImg(name){
 		if(!_images[name]){
