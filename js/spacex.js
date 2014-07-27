@@ -1,10 +1,13 @@
 $(function(){
 	var canvas = $('canvas'),
 		ctx = canvas[0].getContext('2d'),
-		width = canvas.width() * 2,
-		height = canvas.height() * 2,
 
 		downloadBtn = $('#download-btn'),
+		widthRange = $('#width-range'),
+		widthText = $('#width-value'),
+		heightRange = $('#height-range'),
+		heightText = $('#height-value'),
+		futureCheck = $('#future-check'),
 
 		now = new Date(),
 		startDate = new Date("2010-05-14"),
@@ -13,7 +16,10 @@ $(function(){
 		spaceAltitude = 245,
 		spaceHeight = 450,
 		groundHeight = 50,
+
 		option = {
+			width: canvas.width() * 2,
+			height: canvas.height() * 2,
 			showFuture: true,
 			spaceGradient: true
 		},
@@ -27,9 +33,6 @@ $(function(){
 		_images = {},
 		_launches = Promise.resolve($.get("launches.json")),
 		_drawingIndex = [];
-
-	canvas[0].width = width;
-	canvas[0].height = height;
 
 	_launches.then(draw);
 
@@ -56,7 +59,74 @@ $(function(){
 
 	});
 
+	widthRange.on("change", function(){
+		var val = widthRange.val();
+
+		widthText.val(val);
+
+		option.width = val;
+
+		canvas.width(val/2);
+
+		draw();
+	});
+
+	heightRange.on("change", function(){
+		var val = heightRange.val();
+
+		heightText.val(val);
+
+		option.height = val;
+
+		canvas.height(val/2);
+
+		draw();
+	});
+
+	widthRange.on("input", function(){
+		widthText.val(widthRange.val());
+	});
+
+	heightRange.on("input", function(){
+		heightText.val(heightRange.val());
+	});
+
+	widthText.on("change", function(){
+		var val = parseInt(widthText.val()),
+			max = widthRange.attr("max");
+
+		if(val){
+			if(val > max){
+				widthRange.attr("max", val);
+			}
+			widthRange.val(val);
+
+			widthRange.trigger("change");
+		}
+	});
+
+	heightText.on("change", function(){
+		var val = parseInt(heightText.val()),
+			max = heightRange.attr("max");
+
+		if(val){
+			if(val > max){
+				heightRange.attr("max", val);
+			}
+			heightRange.val(val);
+
+			heightRange.trigger("change");
+		}
+	});
+
 	function draw(){
+
+		var width = option.width,
+			height = option.height;
+
+		canvas[0].width = width;
+		canvas[0].height = height;
+
 		Promise.all([
 			_launches,
 			getImg("img/stars.png")
@@ -195,16 +265,16 @@ $(function(){
 
 		ctx.lineWidth = 2;
 
-		for (; markerStart <= width; markerStart += markerWidth) {
+		for (; markerStart <= option.width; markerStart += markerWidth) {
 			ctx.strokeStyle = flip ? "#000000" : "#ffffff";
 			ctx.beginPath();
-			ctx.moveTo(markerStart, height - groundHeight);
-			ctx.lineTo(markerStart + markerWidth, height - groundHeight);
+			ctx.moveTo(markerStart, option.height - groundHeight);
+			ctx.lineTo(markerStart + markerWidth, option.height - groundHeight);
 			ctx.stroke();
 
 			ctx.fillStyle = "#3E4D2E";
 			ctx.font = "20px monospace";
-			ctx.fillText(year, markerStart, height - groundHeight + 20);
+			ctx.fillText(year, markerStart, option.height - groundHeight + 20);
 
 			flip = !flip;
 			year++;

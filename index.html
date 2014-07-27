@@ -25,6 +25,41 @@
 		</div>
 		<div class="container">
 			<h2>Customise</h2>
+			<form class="form-horizontal" role="form">
+				<div class="form-group">
+					<div class="col-sm-3">
+						<label for="width-range" class="control-label">Width</label>
+						<span class="help-block">Width of the full size image</span>
+					</div>
+					<div class="col-sm-7">
+						<input type="range" id="width-range" value="2400" min="800" max="3200">
+					</div>
+					<div class="col-sm-2">
+						<input type="text" class="form-control" id="width-value" value="2400">
+					</div>
+				</div>
+				<div class="form-group">
+					<div class="col-sm-3">
+						<label for="height-range" class="control-label">Height</label>
+						<span class="help-block">Height of the full size image</span>
+					</div>
+					<div class="col-sm-7">
+						<input type="range" id="height-range" value="800" min="600" max="2400">
+					</div>
+					<div class="col-sm-2">
+						<input type="text" class="form-control" id="height-value" value="800">
+					</div>
+				</div>
+				<div class="form-group">
+					<div class="col-sm-3">
+						<label for="future-check" class="control-label">Future Launches</label>
+						<span class="help-block">Show a ghost of planned launches</span>
+					</div>
+					<div class="col-sm-9">
+						<input type="checkbox" class="input-lg" id="future-check" checked>
+					</div>
+				</div>
+			</form>
 		</div>
 		<script src="js/jquery-2.1.1.min.js"></script>
 		<script src="js/spacex.js"></script>
