@@ -35,7 +35,7 @@ $(function(){
 			showNowMarker: true,
 			showOrbits: true,
 			spaceGradient: true,
-			startDate: new Date("2010-05-14"), // approx one monthe before first falcon 9 flight
+			startDate: new Date("2006-01-01"), // approx one monthe before first falcon 9 flight
 			endDate: new Date(now.getFullYear() + 1, now.getMonth(), now.getDate()), // one year from today's date
 			spaceAltitude: 245, // (km) base of space in km, pre-log translation
 			spaceHeight: 450, // (px) pixels to the base of space from the bottom of the image

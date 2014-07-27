@@ -22,7 +22,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -39,9 +39,9 @@
      inkscape:window-height="705"
      id="namedview1129"
      showgrid="false"
-     inkscape:zoom="11.313708"
-     inkscape:cx="269.51684"
-     inkscape:cy="310.8739"
+     inkscape:zoom="7.9999996"
+     inkscape:cx="236.84248"
+     inkscape:cy="308.0598"
      inkscape:window-x="-8"
      inkscape:window-y="-8"
      inkscape:window-maximized="1"
@@ -7682,6 +7682,14 @@
          id="path5509"
          inkscape:connector-curvature="0" />
     </g>
+    <path
+       style="fill:#ff0000;fill-opacity:1;stroke:#a60000;stroke-width:3.50000019;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       d="m 186.99474,733.86218 -7.61974,7.61974 7.61974,7.64079 -7.61974,7.61974 7.61974,7.61973 7.61974,-7.61973 7.61973,7.61973 7.64079,-7.61973 -7.64079,-7.61974 7.64079,-7.64079 -7.64079,-7.61974 -7.61973,7.61974 -7.61974,-7.61974 z"
+       id="rect4381"
+       inkscape:export-filename="E:\Code\spacex-launches\img\vehicles\failure.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90"
+       inkscape:connector-curvature="0" />
   </g>
   <g
      inkscape:label="PV-6AAD"
