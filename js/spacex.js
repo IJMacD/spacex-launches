@@ -171,9 +171,9 @@ $(function(){
 		canvas[0].width = width;
 		canvas[0].height = height;
 
-		horizontalScale = option.width / (endDate - startDate);
+		horizontalScale = width / (endDate - startDate);
 
-		postLogScale = 30;
+		postLogScale = (height - spaceHeight - 50) / Math.log(orbits.GTO);
 
 		Promise.all([
 			_launches,
