@@ -9,20 +9,21 @@ $(function(){
 		heightText = $('#height-value'),
 		futureCheck = $('#future-check'),
 
-		now = new Date(),
-		startDate = new Date("2010-05-14"),
-		horizontalScale = 500 / (365 * 24 * 60 * 60 * 1000), // 100 pixels per year
-		postLogScale = 20,
-		spaceAltitude = 245,
-		spaceHeight = 450,
-		groundHeight = 50,
-
 		option = {
 			width: canvas.width() * 2,
 			height: canvas.height() * 2,
 			showFuture: true,
 			spaceGradient: true
 		},
+
+		now = new Date(),
+		startDate = new Date("2010-05-14"),
+		endDate = new Date(now.getFullYear() + 1, now.getMonth(), now.getDate()),
+		horizontalScale = option.width / (endDate - startDate),
+		postLogScale = 20,
+		spaceAltitude = 245,
+		spaceHeight = 450,
+		groundHeight = 50,
 
 		orbits = {
 			"LEO": 250,
@@ -132,6 +133,8 @@ $(function(){
 
 		canvas[0].width = width;
 		canvas[0].height = height;
+
+		horizontalScale = option.width / (endDate - startDate);
 
 		Promise.all([
 			_launches,
