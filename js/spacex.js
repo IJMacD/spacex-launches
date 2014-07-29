@@ -266,7 +266,7 @@ $(function(){
 		canvas.width(width/2);
 		canvas.height(height/2);
 
-		horizontalScale = width / (option.endDate - option.startDate);
+		horizontalScale = Math.abs(width / (option.endDate - option.startDate));
 
 		postLogScale = (height - option.spaceHeight - 50) / Math.log(orbits.GTO);
 	}
