@@ -13,6 +13,7 @@ $(function(){
 		futureCheck = $('#future-check'),
 		nowCheck = $('#now-check'),
 		orbitCheck = $('#orbit-check'),
+		scaleSelect = $('#scale-select'),
 		startDateText = $('#start-date'),
 		endDateText = $('#end-date'),
 		tooltip = $("<div class='tooltip top in'><div class='tooltip-inner'></div></div>").hide().appendTo('body'),
@@ -30,13 +31,17 @@ $(function(){
 		option = {
 			width: canvas.width() * 2,
 			height: canvas.height() * 2,
+
 			showFuture: true,
 			ghostOpacity: 0.25,
 			showNowMarker: true,
 			showOrbits: true,
 			spaceGradient: true,
+			scaleImage: false,
+
 			startDate: parseDate("2006-01-01"), // before the first falcon 1 flight
 			endDate: new Date(now.getFullYear() + 1, now.getMonth(), now.getDate()), // one year from today's date
+
 			spaceAltitude: 245, // (km) base of space in km, pre-log translation
 			spaceHeight: 450, // (px) pixels to the base of space from the bottom of the image
 			groundHeight: 50 // (px) pixels to the top of the ground from the bottom of the image
@@ -69,11 +74,16 @@ $(function(){
 		/*
 		 * Used for tooltip
 		 */
-		_previousPoint;
+		_previousPoint,
 
-	_launches.then(draw);
+		/*
+		 * Cache of names and urls used for scale images
+		 */
+		_scaleImages;
 
 	initControls();
+
+	_launches.then(draw);
 
 	/*
 	 * Event Handlers
@@ -176,6 +186,19 @@ $(function(){
 		draw();
 	});
 
+	scaleSelect.on("change", function(){
+		var val = scaleSelect.val();
+
+		if(!val || !val.length){
+			option.scaleImage = false;
+		}
+		else {
+			option.scaleImage = val;
+		}
+
+		draw();
+	});
+
 	startDateText.on("change", function(){
 		option.startDate = parseDate(startDateText.val());
 
@@ -224,7 +247,9 @@ $(function(){
 
 			_drawingIndex.length = 0;
 
-			return Promise.all(launches.map(drawLaunch));
+			return Promise.all(launches.map(drawLaunch)).then(function(){
+				drawScale();
+			});
 
 		}).then(function(){
 			downloadBtn.attr("href", ctx.canvas.toDataURL());
@@ -466,6 +491,30 @@ $(function(){
 		});
 	}
 
+	function drawScale(){
+		var scaleImage = _scaleImages[option.scaleImage];
+		if(scaleImage){
+			getImg(scaleImage.url).then(function(img){
+				var right = option.width - 20,
+					left = right - img.width,
+					bottom = option.height - option.groundHeight,
+					top = bottom - img.height;
+
+				ctx.drawImage(img, left, top);
+
+				// These are all divided by two to compensate for the fact
+				// the canvas is scaled to half size for on-screen preview
+				_drawingIndex.push({
+					left: left/2,
+					top: top/2,
+					right: right/2,
+					bottom: bottom/2,
+					target: scaleImage
+				});
+			});
+		}
+	}
+
 	// http://stackoverflow.com/a/15968095/1228394
 	function dashedLine(x1, y1, x2, y2, dashLen) {
 		if (dashLen == undefined) dashLen = 2;
@@ -503,6 +552,18 @@ $(function(){
 
 		startDateText.val(formatDate(option.startDate));
 		endDateText.val(formatDate(option.endDate));
+
+		_scaleImages = {};
+		scaleSelect.find("option").each(function(i,item){
+			var $item = $(item),
+				value = $item.attr("value"),
+				name = $item.text(),
+				url = "img/" + value + ".png";
+
+			if(value){
+				_scaleImages[value] = {name: name, url: url};
+			}
+		});
 	}
 
 	function formatDate(date){
