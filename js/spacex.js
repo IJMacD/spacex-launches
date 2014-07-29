@@ -106,8 +106,6 @@ $(function(){
 
 		option.width = val;
 
-		canvas.width(val/2);
-
 		draw();
 	});
 
@@ -117,8 +115,6 @@ $(function(){
 		heightText.val(val);
 
 		option.height = val;
-
-		canvas.height(val/2);
 
 		draw();
 	});
@@ -241,6 +237,9 @@ $(function(){
 
 		canvas[0].width = width;
 		canvas[0].height = height;
+
+		canvas.width(width/2);
+		canvas.height(height/2);
 
 		horizontalScale = width / (option.endDate - option.startDate);
 
