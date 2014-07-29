@@ -422,7 +422,7 @@ $(function(){
 
 			done = Promise.all(launch.payloads.map(function(payload, index){
 				var payloadOffset = (index - (numPayloads - 1) / 2) * 5,
-					payloadX = ((x + payloadOffset) |0) - 0.5;
+					payloadX = x + payloadOffset;
 				return drawPayload(payload, payloadX, date > now);
 			}));
 
@@ -448,8 +448,9 @@ $(function(){
 		});
 	}
 
-	function drawPayload(payload, x, ghost){
-		var y = orbitToPixels(orbits[payload.orbit]);
+	function drawPayload(payload, launchX, ghost){
+		var y = orbitToPixels(orbits[payload.orbit]),
+			x = ((launchX - 0.5) |0) + 0.5;
 
 		if(payload.orbit == "fail"){
 			ctx.strokeStyle = "#EF8037";
