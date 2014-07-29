@@ -35,7 +35,7 @@ $(function(){
 			showNowMarker: true,
 			showOrbits: true,
 			spaceGradient: true,
-			startDate: new Date("2006-01-01"), // approx one monthe before first falcon 9 flight
+			startDate: parseDate("2006-01-01"), // before the first falcon 1 flight
 			endDate: new Date(now.getFullYear() + 1, now.getMonth(), now.getDate()), // one year from today's date
 			spaceAltitude: 245, // (km) base of space in km, pre-log translation
 			spaceHeight: 450, // (px) pixels to the base of space from the bottom of the image
@@ -181,13 +181,13 @@ $(function(){
 	});
 
 	startDateText.on("change", function(){
-		option.startDate = new Date(startDateText.val());
+		option.startDate = parseDate(startDateText.val());
 
 		draw();
 	});
 
 	endDateText.on("change", function(){
-		option.endDate = new Date(endDateText.val());
+		option.endDate = parseDate(endDateText.val());
 
 		draw();
 	});
@@ -372,7 +372,7 @@ $(function(){
 	}
 
 	function drawLaunch(launch){
-		var date = new Date(launch.date),
+		var date = parseDate(launch.date),
 			x = (date - option.startDate) * horizontalScale,
 			y = option.height - option.groundHeight;
 
@@ -552,5 +552,29 @@ $(function(){
 			pxY = Math.log(alt) * postLogScale,
 			y = option.height - option.spaceHeight - pxY;
 		return y;
+	}
+
+	/**
+	 * Parse date using native code or otherwise in YYYY-MM-DD'T'HH:mm:ss format only
+	 */
+	function parseDate(str){
+		var date = new Date(str),
+			parts,
+			y, m, d, h, i, s;
+
+		if(!+date){
+			parts = str.split(/[-T:]/g);
+
+			y = parts.length > 0 ? parts[0] : (new Date()).getFullYear();
+			m = parts.length > 1 ? parseInt(parts[1]) - 1 : 0;
+			d = parts.length > 2 ? parts[2] : 1;
+			h = parts.length > 3 ? parts[3] : 0;
+			i = parts.length > 4 ? parts[4] : 0;
+			s = parts.length > 5 ? parts[5] : 0;
+
+			date = new Date(y, m, d, h, i, s);
+		}
+
+		return date;
 	}
 });
