@@ -48,12 +48,13 @@ $(function(){
 		},
 
 		/*
-		 * General placeholder orbits if we don't have better information
+		 * General placeholder orbits if we don't have better information (in km)
 		 */
 		orbits = {
 			"LEO": 250,
 			"Polar": 1000,
-			"GTO": 40000
+			"GTO": 40000,
+			"Mars": 225e6 // Mean distance to Mars, 225 Million km
 		},
 
 		/*
@@ -268,7 +269,12 @@ $(function(){
 
 		horizontalScale = Math.abs(width / (option.endDate - option.startDate));
 
-		postLogScale = (height - option.spaceHeight - 50) / Math.log(orbits.GTO);
+		if(height < 1000){
+			postLogScale = (height - option.spaceHeight - 50) / Math.log(orbits.GTO);
+		}
+		else {
+			postLogScale = (height - option.spaceHeight - 50) / Math.log(orbits.Mars);
+		}
 	}
 
 	function drawTiledBackground(img, left, top, right, bottom){
