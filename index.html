@@ -59,6 +59,20 @@
 				</div>
 				<div class="form-group">
 					<div class="col-sm-3">
+						<label for="start-date" class="control-label">Date Range</label>
+						<span class="help-block">What is the earliest and latest date you want to show</span>
+					</div>
+					<label for="start-date" class="control-label col-sm-1">From:</label>
+					<div class="col-sm-2">
+						<input type="date" class="form-control" id="start-date">
+					</div>
+					<label for="end-date" class="control-label col-sm-1">To:</label>
+					<div class="col-sm-2">
+						<input type="date" class="form-control" id="end-date">
+					</div>
+				</div>
+				<div class="form-group">
+					<div class="col-sm-3">
 						<label for="future-check" class="control-label">Future Launches</label>
 						<span class="help-block">Show ghosts of planned launches</span>
 					</div>
@@ -100,16 +114,16 @@
 				</div>
 				<div class="form-group">
 					<div class="col-sm-3">
-						<label for="start-date" class="control-label">Date Range</label>
-						<span class="help-block">What is the earliest and latest date you want to show</span>
+						<label for="sky-select" class="control-label">Sky</label>
+						<span class="help-block">Colour of the sky in the background</span>
 					</div>
-					<label for="start-date" class="control-label col-sm-1">From:</label>
 					<div class="col-sm-2">
-						<input type="date" class="form-control" id="start-date">
-					</div>
-					<label for="end-date" class="control-label col-sm-1">To:</label>
-					<div class="col-sm-2">
-						<input type="date" class="form-control" id="end-date">
+						<select class="form-control" id="sky-select">
+							<option value="midday">Midday</option>
+							<option value="day">Day</option>
+							<option value="twilight">Twilight</option>
+							<option value="night">Night</option>
+						</select>
 					</div>
 				</div>
 			</form>

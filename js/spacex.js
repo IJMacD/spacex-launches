@@ -16,6 +16,7 @@ $(function(){
 		scaleSelect = $('#scale-select'),
 		startDateText = $('#start-date'),
 		endDateText = $('#end-date'),
+		skyColourSelect = $('#sky-select'),
 		tooltip = $("<div class='tooltip top in'><div class='tooltip-inner'></div></div>").hide().appendTo('body'),
 
 		/*
@@ -38,6 +39,7 @@ $(function(){
 			showOrbits: true,
 			spaceGradient: true,
 			scaleImage: false,
+			skyColour: "night",
 
 			startDate: parseDate("2006-01-01"), // before the first falcon 1 flight
 			endDate: new Date(now.getFullYear() + 1, now.getMonth(), now.getDate()), // one year from today's date
@@ -212,6 +214,12 @@ $(function(){
 		draw();
 	});
 
+	skyColourSelect.on("change", function(){
+		option.skyColour = skyColourSelect.val();
+
+		draw();
+	});
+
 	/*
 	 * Drawing functions
 	 */
@@ -230,7 +238,7 @@ $(function(){
 			var launches = args[0],
 				stars = args[1];
 
-			drawTiledBackground(stars, 0, 0, width, height - option.spaceHeight);
+			drawTiledBackground(stars, 0, 0, width, height - option.groundHeight);
 
 			if(option.showOrbits){
 				drawOrbits();
@@ -328,11 +336,31 @@ $(function(){
 	}
 
 	function drawSky(){
-		var grad;
+		var grad,
+			gradHeight,
+			gradFromColour;
 
 		if(option.spaceGradient){
-			grad = ctx.createLinearGradient(0, option.height - option.spaceHeight, 0, option.height - option.spaceHeight + 20);
-			grad.addColorStop(0, "#27303A");
+
+			if(option.skyColour == "day"){
+				gradHeight = option.height - option.spaceHeight + 20;
+				gradFromColour = "#27303A";
+			}
+			else if(option.skyColour == "twilight") {
+				gradHeight = option.height - option.groundHeight;
+				gradFromColour = "rgba(255,255,255,0)";
+			}
+			else if(option.skyColour == "midday") {
+				gradHeight = option.height - option.groundHeight;
+				gradFromColour = "#919EAA";
+			}
+			else {
+				gradHeight = option.height - option.groundHeight;
+				gradFromColour = "rgba(0,0,0,0)";
+			}
+
+			grad = ctx.createLinearGradient(0, option.height - option.spaceHeight, 0, gradHeight);
+			grad.addColorStop(0, gradFromColour);
 			grad.addColorStop(1, "#919EAA");
 
 			ctx.fillStyle = grad;
@@ -571,6 +599,8 @@ $(function(){
 				_scaleImages[value] = {name: name, url: url};
 			}
 		});
+
+		skyColourSelect.val(option.skyColour);
 	}
 
 	function formatDate(date){
