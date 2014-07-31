@@ -14,6 +14,8 @@ $(function(){
 		nowCheck = $('#now-check'),
 		orbitCheck = $('#orbit-check'),
 		scaleSelect = $('#scale-select'),
+		scaleLayerFrontRadio = $('#scale-layer-front-radio'),
+		scaleLayerBackRadio = $('#scale-layer-back-radio'),
 		startDateText = $('#start-date'),
 		endDateText = $('#end-date'),
 		skyColourSelect = $('#sky-select'),
@@ -39,6 +41,7 @@ $(function(){
 			showOrbits: true,
 			spaceGradient: true,
 			scaleImage: false,
+			scaleLayer: "front",
 			skyColour: "night",
 
 			startDate: parseDate("2006-01-01"), // before the first falcon 1 flight
@@ -220,6 +223,18 @@ $(function(){
 		draw();
 	});
 
+	scaleLayerFrontRadio.on("change", function(){
+		option.scaleLayer = scaleLayerFrontRadio.is(":checked") ? "front" : "back";
+
+		draw();
+	});
+
+	scaleLayerBackRadio.on("change", function(){
+		option.scaleLayer = scaleLayerBackRadio.is(":checked") ? "back" : "front";
+
+		draw();
+	});
+
 	/*
 	 * Drawing functions
 	 */
@@ -254,10 +269,16 @@ $(function(){
 				drawNowMarker();
 			}
 
+			if(option.scaleLayer == "back"){
+				drawScale();
+			}
+
 			_drawingIndex.length = 0;
 
 			return Promise.all(launches.map(drawLaunch)).then(function(){
-				drawScale();
+				if(option.scaleLayer == "front"){
+					drawScale();
+				}
 			});
 
 		}).then(function(){
@@ -380,7 +401,7 @@ $(function(){
 		var year = option.startDate.getFullYear(),
 			yearStart = new Date(year, 0, 1),
 			markerStart = (yearStart - option.startDate) * horizontalScale,
-			markerWidth = horizontalScale * (365 * 24 * 60 * 60 * 1000),
+			markerWidth = Math.max(horizontalScale * (365 * 24 * 60 * 60 * 1000), 1),
 			markerEnd = markerStart + markerWidth,
 			flip = false;
 
@@ -601,6 +622,14 @@ $(function(){
 		});
 
 		skyColourSelect.val(option.skyColour);
+
+		scaleLayerFrontRadio
+			.parent().toggleClass("active", option.scaleLayer == "front")
+			.end()[0].checked = option.scaleLayer == "front";
+
+		scaleLayerBackRadio
+			.parent().toggleClass("active", option.scaleLayer == "back")
+			.end()[0].checked = option.scaleLayer == "back";
 	}
 
 	function formatDate(date){
