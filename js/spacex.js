@@ -57,8 +57,7 @@ $(function(){
 		 */
 		orbits = {
 			"LEO": 250,
-			"Polar": 1000,
-			"GTO": 40000,
+			"GEO": 35000,
 			"Mars": 225e6 // Mean distance to Mars, 225 Million km
 		},
 
@@ -299,7 +298,7 @@ $(function(){
 		horizontalScale = Math.abs(width / (option.endDate - option.startDate));
 
 		if(height < 1000){
-			postLogScale = (height - option.spaceHeight - 50) / Math.log(orbits.GTO);
+			postLogScale = (height - option.spaceHeight - 50) / Math.log(orbits.GEO);
 		}
 		else {
 			postLogScale = (height - option.spaceHeight - 50) / Math.log(orbits.Mars);
@@ -504,10 +503,11 @@ $(function(){
 	}
 
 	function drawPayload(payload, launchX, ghost){
-		var y = orbitToPixels(orbits[payload.orbit]),
+		var alt = payload.altitude || orbits[payload.orbit],
+			y = orbitToPixels(alt),
 			x = ((launchX - 0.5) |0) + 0.5;
 
-		if(payload.orbit == "fail"){
+		if(!y){
 			ctx.strokeStyle = "#EF8037";
 			y = option.height - option.spaceHeight + 50;
 		} else {
