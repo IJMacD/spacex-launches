@@ -19,6 +19,7 @@ $(function(){
 		startDateText = $('#start-date'),
 		endDateText = $('#end-date'),
 		skyColourSelect = $('#sky-select'),
+		altitudeCheck = $('#altitude-check'),
 		tooltip = $("<div class='tooltip top in'><div class='tooltip-inner'></div></div>").hide().appendTo('body'),
 
 		/*
@@ -43,6 +44,7 @@ $(function(){
 			scaleImage: false,
 			scaleLayer: "front",
 			skyColour: "night",
+			showAltitudes: true,
 
 			startDate: parseDate("2006-01-01"), // before the first falcon 1 flight
 			endDate: new Date(now.getFullYear() + 1, now.getMonth(), now.getDate()), // one year from today's date
@@ -57,8 +59,9 @@ $(function(){
 		 */
 		orbits = {
 			"LEO": 250,
-			"Polar": 1000,
-			"GTO": 40000,
+			"GEO": 35000,
+			"Polar": 40000,
+			"GTO": 90000,
 			"Mars": 225e6 // Mean distance to Mars, 225 Million km
 		},
 
@@ -235,6 +238,13 @@ $(function(){
 		draw();
 	});
 
+	altitudeCheck.on("click", function(){
+		// opposite because class hasn't been changed yet
+		option.showAltitudes = !altitudeCheck.hasClass("active");
+
+		draw();
+	});
+
 	/*
 	 * Drawing functions
 	 */
@@ -299,7 +309,7 @@ $(function(){
 		horizontalScale = Math.abs(width / (option.endDate - option.startDate));
 
 		if(height < 1000){
-			postLogScale = (height - option.spaceHeight - 50) / Math.log(orbits.GTO);
+			postLogScale = (height - option.spaceHeight - 50) / Math.log(orbits.GEO);
 		}
 		else {
 			postLogScale = (height - option.spaceHeight - 50) / Math.log(orbits.Mars);
@@ -339,7 +349,7 @@ $(function(){
 		ctx.fillStyle = "rgba(255,255,255,0.137)";
 		ctx.font = "20px monospace";
 
-		for (orbit in orbits){
+		["LEO", "GEO", "Mars"].forEach(function(orbit){
 			if(orbits.hasOwnProperty(orbit)){
 				y = (orbitToPixels(orbits[orbit]) |0);
 
@@ -351,7 +361,7 @@ $(function(){
 
 				ctx.fillText(orbit, 10, y - 10);
 			}
-		}
+		});
 
 		ctx.restore();
 	}
@@ -504,10 +514,11 @@ $(function(){
 	}
 
 	function drawPayload(payload, launchX, ghost){
-		var y = orbitToPixels(orbits[payload.orbit]),
+		var alt = (option.showAltitudes && payload.altitude) || orbits[payload.orbit],
+			y = orbitToPixels(alt),
 			x = ((launchX - 0.5) |0) + 0.5;
 
-		if(payload.orbit == "fail"){
+		if(!y){
 			ctx.strokeStyle = "#EF8037";
 			y = option.height - option.spaceHeight + 50;
 		} else {
@@ -630,6 +641,9 @@ $(function(){
 		scaleLayerBackRadio
 			.parent().toggleClass("active", option.scaleLayer == "back")
 			.end()[0].checked = option.scaleLayer == "back";
+
+
+		altitudeCheck.toggleClass("active", option.showAltitudes);
 	}
 
 	function formatDate(date){
