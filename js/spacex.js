@@ -526,8 +526,12 @@ $(function(){
 		}
 		ctx.lineWidth = 5;
 		ctx.beginPath();
-		ctx.moveTo(x, option.height - option.groundHeight - 50);
-		ctx.lineTo(x, y);
+		if(ghost){
+			dashedLine(x, option.height - option.groundHeight - 50, x, y, 10);
+		} else {
+			ctx.moveTo(x, option.height - option.groundHeight - 50);
+			ctx.lineTo(x, y);
+		}
 		ctx.stroke();
 
 		return getImg("img/vehicles/"+payload.image).then(function(img){
