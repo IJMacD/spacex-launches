@@ -36,7 +36,7 @@ $(function(){
 			width: canvas.width() * 2,
 			height: canvas.height() * 2,
 
-			showFuture: true,
+			showFuture: false,
 			ghostOpacity: 0.25,
 			showNowMarker: true,
 			showOrbits: true,
@@ -59,9 +59,11 @@ $(function(){
 		 */
 		orbits = {
 			"LEO": 250,
+			"SSO": 1000,
 			"GEO": 35000,
 			"Polar": 40000,
 			"GTO": 90000,
+			"L1": 1.5e6,
 			"Mars": 225e6 // Mean distance to Mars, 225 Million km
 		},
 

@@ -204,7 +204,7 @@
 		]
 	},
 	{
-		"date": "2014-09-19T02:38:00-04:00",
+		"date": "2014-09-20T02:16:00-04:00",
 		"image": "falcon9-1.1-dragon-legs.png",
 		"payloads": [
 			{
@@ -233,6 +233,412 @@
 				"name": "SpaceX CRS-5",
 				"orbit": "LEO",
 				"image": "dragon-trunk.png"
+			}
+		]
+	},
+	{
+		"date": "2015-01-01T00:00:00Z",
+		"image": "falcon9-1.1-faring-legs.png",
+		"payloads": [
+			{
+				"name": "TurkmenSat 1",
+				"orbit": "GEO",
+				"image": "satellite.png"
+			}
+		]
+	},
+	{
+		"date": "2015-01-13T00:00:00Z",
+		"image": "falcon9-1.1-faring-legs.png",
+		"payloads": [
+			{
+				"name": "DSCOVR",
+				"orbit": "L1",
+				"image": "satellite.png"
+			},
+			{
+				"name": "Sunjammer",
+				"orbit": "L1",
+				"image": "satellite.png"
+			}
+		]
+	},
+	{
+		"date": "2015-02-04T00:00:00Z",
+		"image": "falcon9-1.1-dragon-legs.png",
+		"payloads": [
+			{
+				"name": "SpaceX CRS-6",
+				"orbit": "LEO",
+				"image": "dragon-trunk.png"
+			}
+		]
+	},
+	{
+		"date": "2015-02-24T00:00:00Z",
+		"image": "falconheavy-legs.png",
+		"payloads": []
+	},
+	{
+		"date": "2015-03-10T00:00:00Z",
+		"image": "falcon9-1.1-faring-legs.png",
+		"payloads": [
+			{
+				"name": "SAOCOM 1A",
+				"orbit": "SSO",
+				"image": "satellite.png"
+			}
+		]
+	},
+	{
+		"date": "2015-04-01T00:00:00Z",
+		"image": "falcon9-1.1-faring-legs.png",
+		"payloads": [
+			{
+				"name": "ABS 3A, Eutelsat 115 West B",
+				"orbit": "GTO",
+				"image": "satellite.png"
+			}
+		]
+	},
+	{
+		"date": "2015-04-20T00:00:00Z",
+		"image": "falcon9-1.1-faring-legs.png",
+		"payloads": [
+			{
+				"name": "FORMOSAT 5",
+				"orbit": "SSO",
+				"image": "satellite.png"
+			}
+		]
+	},
+	{
+		"date": "2015-05-10T00:00:00Z",
+		"image": "falcon9-1.1-dragon-legs.png",
+		"payloads": [
+			{
+				"name": "SpaceX CRS-7",
+				"orbit": "LEO",
+				"image": "dragon-trunk.png"
+			}
+		]
+	},
+	{
+		"date": "2015-06-01T00:00:00Z",
+		"image": "falcon9-1.1-faring-legs.png",
+		"payloads": [
+			{
+				"name": "ABS 2A, Eutelsat 117 West B",
+				"orbit": "GTO",
+				"image": "satellite.png"
+			}
+		]
+	},
+	{
+		"date": "2015-06-20T00:00:00Z",
+		"image": "falcon9-1.1-faring-legs.png",
+		"payloads": [
+			{
+				"name": "Jason-3",
+				"orbit": "SSO",
+				"image": "satellite.png"
+			}
+		]
+	},
+	{
+		"date": "2015-07-10T00:00:00Z",
+		"image": "falcon9-1.1-faring-legs.png",
+		"payloads": [
+			{
+				"name": "Amos-6",
+				"orbit": "GTO",
+				"image": "satellite.png"
+			}
+		]
+	},
+	{
+		"date": "2015-08-01T00:00:00Z",
+		"image": "falcon9-1.1-faring-legs.png",
+		"payloads": [
+			{
+				"name": "SAOCOM 1B",
+				"orbit": "SSO",
+				"image": "satellite.png"
+			}
+		]
+	},
+	{
+		"date": "2015-08-20T00:00:00Z",
+		"image": "falconheavy-faring-legs.png",
+		"payloads": [
+			{
+				"name": "DSX",
+				"orbit": "LEO",
+				"image": "satellite.png"
+			}
+		]
+	},
+	{
+		"date": "2015-09-10T00:00:00Z",
+		"image": "falcon9-1.1-dragon-legs.png",
+		"payloads": [
+			{
+				"name": "SpaceX CRS-8",
+				"orbit": "LEO",
+				"image": "dragon-trunk.png"
+			}
+		]
+	},
+	{
+		"date": "2015-10-01T00:00:00Z",
+		"image": "falcon9-1.1-faring-legs.png",
+		"payloads": [
+			{
+				"name": "SES-9",
+				"orbit": "GTO",
+				"image": "satellite.png"
+			}
+		]
+	},
+	{
+		"date": "2015-10-20T00:00:00Z",
+		"image": "falcon9-1.1-faring-legs.png",
+		"payloads": [
+			{
+				"name": "Iridium NEXT 3-12",
+				"orbit": "LEO",
+				"image": "satellite.png"
+			}
+		]
+	},
+	{
+		"date": "2015-11-10T00:00:00Z",
+		"image": "falcon9-1.1-faring-legs.png",
+		"payloads": [
+			{
+				"name": "Iridium NEXT 13-22",
+				"orbit": "LEO",
+				"image": "satellite.png"
+			}
+		]
+	},
+	{
+		"date": "2015-12-01T00:00:00Z",
+		"image": "falcon9-1.1-faring-legs.png",
+		"payloads": [
+			{
+				"name": "JCSAT-14",
+				"orbit": "GTO",
+				"image": "satellite.png"
+			}
+		]
+	},
+	{
+		"date": "2016-01-01T00:00:00Z",
+		"image": "falcon9-1.1-faring-legs.png",
+		"payloads": [
+			{
+				"name": "SES-10",
+				"orbit": "GTO",
+				"image": "satellite.png"
+			}
+		]
+	},
+	{
+		"date": "2016-01-20T00:00:00Z",
+		"image": "falcon9-1.1-faring-legs.png",
+		"payloads": [
+			{
+				"name": "Thaicom 8",
+				"orbit": "GTO",
+				"image": "satellite.png"
+			}
+		]
+	},
+	{
+		"date": "2016-02-10T00:00:00Z",
+		"image": "falcon9-1.1-faring-legs.png",
+		"payloads": [
+			{
+				"name": "BulgariaSat-1",
+				"orbit": "GTO",
+				"image": "satellite.png"
+			}
+		]
+	},
+	{
+		"date": "2016-03-01T00:00:00Z",
+		"image": "falconheavy-faring-legs.png",
+		"payloads": [
+			{
+				"name": "EuropaSat/HellasSat 3",
+				"orbit": "GTO",
+				"image": "satellite.png"
+			}
+		]
+	},
+	{
+		"date": "2016-03-20T00:00:00Z",
+		"image": "falconheavy-faring-legs.png",
+		"payloads": [
+			{
+				"name": "Immarsat 5-F4",
+				"orbit": "GTO",
+				"image": "satellite.png"
+			}
+		]
+	},
+	{
+		"date": "2016-04-10T00:00:00Z",
+		"image": "falcon9-1.1-dragon-legs.png",
+		"payloads": [
+			{
+				"name": "DragonLab Mission 1",
+				"orbit": "LEO",
+				"image": "dragon-trunk.png"
+			}
+		]
+	},
+	{
+		"date": "2016-05-01T00:00:00Z",
+		"image": "falcon9-1.1-dragon-legs.png",
+		"payloads": [
+			{
+				"name": "SpaceX CRS-9",
+				"orbit": "LEO",
+				"image": "dragon-trunk.png"
+			}
+		]
+	},
+	{
+		"date": "2016-05-20T00:00:00Z",
+		"image": "falcon9-1.1-dragon-legs.png",
+		"payloads": [
+			{
+				"name": "SpaceX CRS-10",
+				"orbit": "LEO",
+				"image": "dragon-trunk.png"
+			}
+		]
+	},
+	{
+		"date": "2016-06-10T00:00:00Z",
+		"image": "falcon9-1.1-dragon-legs.png",
+		"payloads": [
+			{
+				"name": "SpaceX CRS-11",
+				"orbit": "LEO",
+				"image": "dragon-trunk.png"
+			}
+		]
+	},
+	{
+		"date": "2016-07-01T00:00:00Z",
+		"image": "falcon9-1.1-dragon-legs.png",
+		"payloads": [
+			{
+				"name": "SpaceX CRS-12",
+				"orbit": "LEO",
+				"image": "dragon-trunk.png"
+			}
+		]
+	},
+	{
+		"date": "2016-07-20T00:00:00Z",
+		"image": "falcon9-1.1-faring-legs.png",
+		"payloads": [
+			{
+				"name": "Iridium NEXT 23-32",
+				"orbit": "LEO",
+				"image": "satellite.png"
+			}
+		]
+	},
+	{
+		"date": "2016-08-10T00:00:00Z",
+		"image": "falcon9-1.1-faring-legs.png",
+		"payloads": [
+			{
+				"name": "Iridium NEXT 33-42",
+				"orbit": "LEO",
+				"image": "satellite.png"
+			}
+		]
+	},
+	{
+		"date": "2016-09-01T00:00:00Z",
+		"image": "falcon9-1.1-faring-legs.png",
+		"payloads": [
+			{
+				"name": "Iridium NEXT 43-52",
+				"orbit": "LEO",
+				"image": "satellite.png"
+			}
+		]
+	},
+	{
+		"date": "2016-09-20T00:00:00Z",
+		"image": "falcon9-1.1-faring-legs.png",
+		"payloads": [
+			{
+				"name": "Iridium NEXT 53-62",
+				"orbit": "LEO",
+				"image": "satellite.png"
+			}
+		]
+	},
+	{
+		"date": "2016-10-10T00:00:00Z",
+		"image": "falcon9-1.1-faring-legs.png",
+		"payloads": [
+			{
+				"name": "Iridium NEXT 63-72",
+				"orbit": "LEO",
+				"image": "satellite.png"
+			}
+		]
+	},
+	{
+		"date": "2018-01-01T00:00:00Z",
+		"image": "falcon9-1.1-faring-legs.png",
+		"payloads": [
+			{
+				"name": "RCM 1/2/3",
+				"orbit": "SSO",
+				"image": "satellite.png"
+			}
+		]
+	},
+	{
+		"date": "2018-07-01T00:00:00Z",
+		"image": "falcon9-1.1-dragon-legs.png",
+		"payloads": [
+			{
+				"name": "DragonLab Mission 2",
+				"orbit": "LEO",
+				"image": "dragon-trunk.png"
+			}
+		]
+	},
+	{
+		"date": "2019-01-01T00:00:00Z",
+		"image": "falcon9-1.1-faring-legs.png",
+		"payloads": [
+			{
+				"name": "SARah 1",
+				"orbit": "SSO",
+				"image": "satellite.png"
+			}
+		]
+	},
+	{
+		"date": "2019-07-01T00:00:00Z",
+		"image": "falcon9-1.1-faring-legs.png",
+		"payloads": [
+			{
+				"name": "SARah 2/3",
+				"orbit": "SSO",
+				"image": "satellite.png"
 			}
 		]
 	}
