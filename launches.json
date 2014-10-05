@@ -210,7 +210,8 @@
 			{
 				"name": "SpaceX CRS-4",
 				"orbit": "LEO",
-				"image": "dragon-trunk.png"
+				"image": "dragon-trunk.png",
+				"altitude": 415.5
 			}
 		]
 	},
