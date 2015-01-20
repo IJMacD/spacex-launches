@@ -216,7 +216,7 @@
 		]
 	},
 	{
-		"date": "2014-12-15T00:00:00Z",
+		"date": "2015-07-01T00:00:00Z",
 		"image": "falcon9-1.1-faring-legs.png",
 		"payloads": [
 			{
@@ -227,7 +227,7 @@
 		]
 	},
 	{
-		"date": "2014-12-01T00:00:00Z",
+		"date": "2015-01-10T09:47:00Z",
 		"image": "falcon9-1.1-dragon-legs.png",
 		"payloads": [
 			{
@@ -238,7 +238,7 @@
 		]
 	},
 	{
-		"date": "2015-01-01T00:00:00Z",
+		"date": "2015-03-01T00:00:00Z",
 		"image": "falcon9-1.1-faring-legs.png",
 		"payloads": [
 			{
@@ -249,23 +249,18 @@
 		]
 	},
 	{
-		"date": "2015-01-13T00:00:00Z",
+		"date": "2015-02-08T23:15:00Z",
 		"image": "falcon9-1.1-faring-legs.png",
 		"payloads": [
 			{
 				"name": "DSCOVR",
 				"orbit": "L1",
 				"image": "satellite.png"
-			},
-			{
-				"name": "Sunjammer",
-				"orbit": "L1",
-				"image": "satellite.png"
 			}
 		]
 	},
 	{
-		"date": "2015-02-04T00:00:00Z",
+		"date": "2015-04-08T00:00:00Z",
 		"image": "falcon9-1.1-dragon-legs.png",
 		"payloads": [
 			{
@@ -276,7 +271,7 @@
 		]
 	},
 	{
-		"date": "2015-02-24T00:00:00Z",
+		"date": "2015-09-24T00:00:00Z",
 		"image": "falconheavy-legs.png",
 		"payloads": []
 	},
@@ -314,7 +309,7 @@
 		]
 	},
 	{
-		"date": "2015-05-10T00:00:00Z",
+		"date": "2015-06-13T00:00:00Z",
 		"image": "falcon9-1.1-dragon-legs.png",
 		"payloads": [
 			{
@@ -325,7 +320,7 @@
 		]
 	},
 	{
-		"date": "2015-06-01T00:00:00Z",
+		"date": "2015-10-01T00:00:00Z",
 		"image": "falcon9-1.1-faring-legs.png",
 		"payloads": [
 			{
@@ -336,7 +331,7 @@
 		]
 	},
 	{
-		"date": "2015-06-20T00:00:00Z",
+		"date": "2015-03-31T00:00:00Z",
 		"image": "falcon9-1.1-faring-legs.png",
 		"payloads": [
 			{
@@ -380,7 +375,7 @@
 		]
 	},
 	{
-		"date": "2015-09-10T00:00:00Z",
+		"date": "2015-09-02T00:00:00Z",
 		"image": "falcon9-1.1-dragon-legs.png",
 		"payloads": [
 			{
