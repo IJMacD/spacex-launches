@@ -387,6 +387,10 @@ $(function(){
 				gradHeight = option.height - option.groundHeight;
 				gradFromColour = "#919EAA";
 			}
+			else if(option.skyColour == "midnight")  {
+				gradHeight = option.height - option.spaceHeight;
+				gradFromColour = "rgba(0,0,0,0)";
+			}
 			else {
 				gradHeight = option.height - option.groundHeight;
 				gradFromColour = "rgba(0,0,0,0)";
