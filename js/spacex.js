@@ -526,10 +526,12 @@ $(function(){
 			x = ((launchX - 0.5) |0) + 0.5;
 
 		if(!y){
-			ctx.strokeStyle = "#EF8037";
 			y = option.height - option.spaceHeight + 50;
-		} else {
+		}
+		if(orbits[payload.orbit]) {
 			ctx.strokeStyle = "#83D85F";
+		} else {
+			ctx.strokeStyle = "#EF8037";
 		}
 		ctx.lineWidth = 5;
 		ctx.beginPath();
