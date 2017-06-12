@@ -497,6 +497,44 @@
 		]
 	},
 	{
+		"date": "2017-07-01T23:35:00Z",
+		"image": "falcon9-1.1-faring-legs.png",
+		"payloads": [
+			{
+				"name": "Intelsat 35e",
+				"orbit": "GTO",
+				"image": "satellite.png"
+			}
+		]
+	},
+	{
+		"date": "2017-07-15T00:00:00Z",
+		"image": "falcon9-1.1-faring-legs.png",
+		"payloads": [
+			{
+				"name": "SES-11",
+				"orbit": "GTO",
+				"image": "satellite.png"
+			},
+			{
+				"name": "EchoStar 105",
+				"orbit": "GTO",
+				"image": "satellite.png"
+			}
+		]
+	},
+	{
+		"date": "2017-07-22T00:00:00Z",
+		"image": "falcon9-1.1-faring-legs.png",
+		"payloads": [
+			{
+				"name": "FormoSat-5",
+				"orbit": "SSO",
+				"image": "satellite.png"
+			}
+		]
+	},
+	{
 		"date": "2017-08-01T00:00:00Z",
 		"image": "falcon9-1.1-dragon-legs.png",
 		"payloads": [
@@ -508,12 +546,45 @@
 		]
 	},
 	{
+		"date": "2017-08-15T00:00:00Z",
+		"image": "falcon9-1.1-faring-legs.png",
+		"payloads": [
+			{
+				"name": "Boeing X-37B OTV-5",
+				"orbit": "LEO",
+				"image": "X-37.png"
+			}
+		]
+	},
+	{
+		"date": "2017-08-24T00:00:00Z",
+		"image": "falcon9-1.1-faring-legs.png",
+		"payloads": [
+			{
+				"name": "Iridium NEXT 21-30",
+				"orbit": "LEO",
+				"image": "satellite.png"
+			}
+		]
+	},
+	{
 		"date": "2017-10-01T00:00:00Z",
 		"image": "falconheavy-faring-legs.png",
 		"payloads": [
 			{
 				"name": "Falcon Heavy Demo Flight",
 				"orbit": "GTO",
+				"image": "satellite.png"
+			}
+		]
+	},
+	{
+		"date": "2017-10-15T00:00:00Z",
+		"image": "falcon9-1.1-faring-legs.png",
+		"payloads": [
+			{
+				"name": "Iridium NEXT 31-40",
+				"orbit": "LEO",
 				"image": "satellite.png"
 			}
 		]
