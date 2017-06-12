@@ -453,6 +453,17 @@
 		]
 	},
 	{
+		"date": "2017-05-01T11:15:00Z",
+		"image": "falcon9-1.1-faring-legs.png",
+		"payloads": [
+			{
+				"name": "NROL-76",
+				"orbit": "LEO",
+				"image": "satellite.png"
+			}
+		]
+	},
+	{
 		"date": "2017-05-15T23:21:00Z",
 		"image": "falcon9-1.1-faring.png",
 		"payloads": [
@@ -475,7 +486,7 @@
 		]
 	},
 	{
-		"date": "2017-06-17T00:00:00Z",
+		"date": "2017-06-17T18:10:00Z",
 		"image": "falcon9-1.1-faring-legs.png",
 		"payloads": [
 			{
@@ -590,7 +601,7 @@
 		]
 	},
 	{
-		"date": "2017-10-01T00:00:00Z",
+		"date": "2017-10-25T00:00:00Z",
 		"image": "falcon9-1.1-faring-legs.png",
 		"payloads": [
 			{
