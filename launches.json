@@ -105,7 +105,8 @@
 			{
 				"name": "Orbcomm-OG2",
 				"orbit": "fail",
-				"image": "satellite.png"
+				"image": "satellite.png",
+				"altitude": 260
 			}
 		]
 	},
@@ -242,9 +243,16 @@
 		"image": "falcon9-1.1-faring-legs.png",
 		"payloads": [
 			{
-				"name": "ABS 3A, Eutelsat 115 West B",
+				"name": "ABS 3A",
 				"orbit": "GTO",
-				"image": "satellite.png"
+				"image": "satellite.png",
+				"altitude": 31811
+			},
+			{
+				"name": "Eutelsat 115 West B",
+				"orbit": "GTO",
+				"image": "satellite.png",
+				"altitude": 35794
 			}
 		]
 	},
@@ -353,9 +361,16 @@
 		"image": "falcon9-1.1-faring-legs.png",
 		"payloads": [
 			{
-				"name": "ABS 2A, Eutelsat 117 West B",
+				"name": "ABS 2A",
 				"orbit": "GTO",
-				"image": "satellite.png"
+				"image": "satellite.png",
+				"altitude": 31811
+			},
+			{
+				"name": "Eutelsat 117 West B",
+				"orbit": "GTO",
+				"image": "satellite.png",
+				"altitude": 35794
 			}
 		]
 	},
@@ -417,7 +432,7 @@
 	},
 	{
 		"date": "2017-03-16T06:00:00Z",
-		"image": "falcon9-1.1-faring-legs.png",
+		"image": "falcon9-1.1-faring.png",
 		"payloads": [
 			{
 				"name": "EchoStar 23",
@@ -439,10 +454,10 @@
 	},
 	{
 		"date": "2017-05-15T23:21:00Z",
-		"image": "falcon9-1.1-faring-legs.png",
+		"image": "falcon9-1.1-faring.png",
 		"payloads": [
 			{
-				"name": "Immarsat 5-F4",
+				"name": "Inmarsat 5-F4",
 				"orbit": "GTO",
 				"image": "satellite.png"
 			}
