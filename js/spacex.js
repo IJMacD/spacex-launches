@@ -46,7 +46,8 @@ $(function(){
 			skyColour: "night",
 			showAltitudes: true,
 
-			startDate: parseDate("2006-01-01"), // before the first falcon 1 flight
+			//startDate: parseDate("2006-01-01"), // before the first falcon 1 flight
+			startDate: parseDate("2010-01-01"), // before the first falcon 9 flight
 			endDate: new Date(now.getFullYear() + 1, now.getMonth(), now.getDate()), // one year from today's date
 
 			spaceAltitude: 245, // (km) base of space in km, pre-log translation
@@ -525,10 +526,12 @@ $(function(){
 			x = ((launchX - 0.5) |0) + 0.5;
 
 		if(!y){
-			ctx.strokeStyle = "#EF8037";
 			y = option.height - option.spaceHeight + 50;
-		} else {
+		}
+		if(orbits[payload.orbit]) {
 			ctx.strokeStyle = "#83D85F";
+		} else {
+			ctx.strokeStyle = "#EF8037";
 		}
 		ctx.lineWidth = 5;
 		ctx.beginPath();
