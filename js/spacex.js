@@ -61,9 +61,12 @@ $(function(){
 		orbits = {
 			"LEO": 250,
 			"SSO": 1000,
+			"MEO": 10000,
 			"GEO": 35000,
 			"Polar": 40000,
 			"GTO": 90000,
+			"HEO": 120000,
+			"Moon": 384400,
 			"L1": 1.5e6,
 			"Mars": 225e6 // Mean distance to Mars, 225 Million km
 		},
@@ -352,7 +355,7 @@ $(function(){
 		ctx.fillStyle = "rgba(255,255,255,0.137)";
 		ctx.font = "20px monospace";
 
-		["LEO", "GEO", "Mars"].forEach(function(orbit){
+		["LEO", "GEO", "Moon", "Mars"].forEach(function(orbit){
 			if(orbits.hasOwnProperty(orbit)){
 				y = (orbitToPixels(orbits[orbit]) |0);
 
