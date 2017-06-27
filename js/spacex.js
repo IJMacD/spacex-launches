@@ -10,6 +10,9 @@ $(function(){
 		widthText = $('#width-value'),
 		heightRange = $('#height-range'),
 		heightText = $('#height-value'),
+		spreadRange = $('#spread-range'),
+		spreadText = $('#spread-value'),
+		logCheck = $('#log-check'),
 		futureCheck = $('#future-check'),
 		nowCheck = $('#now-check'),
 		orbitCheck = $('#orbit-check'),
@@ -26,7 +29,9 @@ $(function(){
 		 * Parameters
 		 */
 		now = new Date(),
-		horizontalScale, // (px / ms) pixels per millisecond, x-axis time scale
+		frac, // factors to compute x axis positions
+		horizontalPreScale,
+		horizontalPostScale,
 		postLogScale, // vertical scaling of space at top of image
 
 		/*
@@ -45,6 +50,7 @@ $(function(){
 			scaleLayer: "front",
 			skyColour: "night",
 			showAltitudes: true,
+			spread: 1.0,
 
 			//startDate: parseDate("2006-01-01"), // before the first falcon 1 flight
 			startDate: parseDate("2010-01-01"), // before the first falcon 9 flight
@@ -61,9 +67,12 @@ $(function(){
 		orbits = {
 			"LEO": 250,
 			"SSO": 1000,
+			"MEO": 10000,
 			"GEO": 35000,
 			"Polar": 40000,
 			"GTO": 90000,
+			"HEO": 120000,
+			"Moon": 384400,
 			"L1": 1.5e6,
 			"Mars": 225e6 // Mean distance to Mars, 225 Million km
 		},
@@ -141,12 +150,26 @@ $(function(){
 		draw();
 	});
 
+	spreadRange.on("change", function(){
+		var val = spreadRange.val();
+
+		spreadText.val(val);
+
+		option.spread = val;
+
+		draw();
+	});
+
 	widthRange.on("input", function(){
 		widthText.val(widthRange.val());
 	});
 
 	heightRange.on("input", function(){
 		heightText.val(heightRange.val());
+	});
+
+	spreadRange.on("input", function(){
+		spreadText.val(spreadRange.val());
 	});
 
 	widthText.on("change", function(){
@@ -174,6 +197,20 @@ $(function(){
 			heightRange.val(val);
 
 			heightRange.trigger("change");
+		}
+	});
+
+	spreadText.on("change", function(){
+		var val = parseFloat(spreadText.val()),
+			max = spreadRange.attr("max");
+
+		if(val){
+			if(val > max){
+				spreadRange.attr("max", val);
+			}
+			spreadRange.val(val);
+
+			spreadRange.trigger("change");
 		}
 	});
 
@@ -301,6 +338,20 @@ $(function(){
 		});
 	}
 
+	function fromDate(date){
+		if (date < option.startDate) {
+			return -1;
+		} else if (date > option.endDate) {
+			return option.width + 1;
+		}
+		x = (date - option.startDate) / (option.endDate - option.startDate);
+		if (date < now) {
+			return x ** (option.spread) * horizontalPreScale * option.width;
+		} else {
+			return (1 - (1 - x) ** (option.spread) * horizontalPostScale) * option.width;
+		}
+	}
+
 	function setCanvasSize(width, height){
 
 		canvas[0].width = width;
@@ -309,7 +360,9 @@ $(function(){
 		canvas.width(width/2);
 		canvas.height(height/2);
 
-		horizontalScale = Math.abs(width / (option.endDate - option.startDate));
+		frac = (now - option.startDate) / (option.endDate - option.startDate);
+		horizontalPreScale = frac / frac ** (option.spread);
+		horizontalPostScale = (1 - frac) / (1 - frac) ** (option.spread);
 
 		if(height < 1000){
 			postLogScale = (height - option.spaceHeight - 50) / Math.log(orbits.GEO);
@@ -352,7 +405,7 @@ $(function(){
 		ctx.fillStyle = "rgba(255,255,255,0.137)";
 		ctx.font = "20px monospace";
 
-		["LEO", "GEO", "Mars"].forEach(function(orbit){
+		["LEO", "GEO", "Moon", "Mars"].forEach(function(orbit){
 			if(orbits.hasOwnProperty(orbit)){
 				y = (orbitToPixels(orbits[orbit]) |0);
 
@@ -415,37 +468,36 @@ $(function(){
 	}
 
 	function drawAxis(){
-		var year = option.startDate.getFullYear(),
-			yearStart = new Date(year, 0, 1),
-			markerStart = (yearStart - option.startDate) * horizontalScale,
-			markerWidth = Math.max(horizontalScale * (365 * 24 * 60 * 60 * 1000), 1),
-			markerEnd = markerStart + markerWidth,
-			flip = false;
+		var flip = false,
+			startYear = option.startDate.getFullYear(),
+			endYear = option.endDate.getFullYear();
 
 		ctx.save();
 
 		ctx.lineWidth = 2;
 
-		for (; markerStart <= option.width; markerStart += markerWidth) {
+		for (var year = startYear; year <= endYear; year++) {
+			var start = new Date(year, 0, 1),
+				end = new Date(year + 1, 0, 0);
 			ctx.strokeStyle = flip ? "#000000" : "#ffffff";
 			ctx.beginPath();
-			ctx.moveTo(markerStart, option.height - option.groundHeight);
-			ctx.lineTo(markerStart + markerWidth, option.height - option.groundHeight);
+			ctx.moveTo(fromDate(start), option.height - option.groundHeight);
+			ctx.lineTo(fromDate(end), option.height - option.groundHeight);
 			ctx.stroke();
 
+			var maxWidth = Math.max(fromDate(end) - fromDate(start), fromDate(start) - option.width);
 			ctx.fillStyle = "#3E4D2E";
 			ctx.font = "20px monospace";
-			ctx.fillText(year, markerStart, option.height - option.groundHeight + 20);
+			ctx.fillText(year, fromDate(start), option.height - option.groundHeight + 20, maxWidth);
 
 			flip = !flip;
-			year++;
 		};
 
 		ctx.restore();
 	}
 
 	function drawNowMarker(){
-		var x = (now - option.startDate) * horizontalScale,
+		var x = fromDate(now),
 			y = option.height - option.groundHeight;
 
 		ctx.save();
@@ -469,8 +521,11 @@ $(function(){
 
 	function drawLaunch(launch){
 		var date = parseDate(launch.date),
-			x = (date - option.startDate) * horizontalScale,
+			x = fromDate(date),
 			y = option.height - option.groundHeight;
+		if (date < option.startDate || date > option.endDate){
+			return;
+		}
 
 		return getImg("img/vehicles/"+launch.image).then(function(img){
 			var w = img.width,

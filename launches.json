@@ -81,7 +81,7 @@
 		]
 	},
 	{
-		"date": "2012-05-22T03:44:00-04:00",
+		"date": "2012-05-22T03:44:38-04:00",
 		"image": "falcon9-1.0-dragon.png",
 		"payloads": [
 			{
@@ -111,7 +111,7 @@
 		]
 	},
 	{
-		"date": "2013-04-01T10:10:00-05:00",
+		"date": "2013-03-01T10:10:13-05:00",
 		"image": "falcon9-1.0-dragon.png",
 		"payloads": [
 			{
@@ -151,7 +151,7 @@
 		"image": "falcon9-1.1-faring.png",
 		"payloads": [
 			{
-				"name": "Thaicom 6",
+				"name": "Thaicom-6",
 				"orbit": "GTO",
 				"altitude": 35792.5,
 				"image": "satellite.png"
@@ -175,7 +175,7 @@
 		"image": "falcon9-1.1-faring-legs.png",
 		"payloads": [
 			{
-				"name": "OG2 Mission 1",
+				"name": "Orbcomm OG2 Mission 1",
 				"orbit": "LEO",
 				"altitude": 682.5,
 				"image": "satellite.png"
@@ -205,7 +205,7 @@
 		]
 	},
 	{
-		"date": "2014-09-21T01:52:00-04:00",
+		"date": "2014-09-21T01:52:03-04:00",
 		"image": "falcon9-1.1-dragon.png",
 		"payloads": [
 			{
@@ -217,7 +217,7 @@
 		]
 	},
 	{
-		"date": "2015-01-10T09:47:00Z",
+		"date": "2015-01-10T09:47:10Z",
 		"image": "falcon9-1.1-dragon-legs.png",
 		"payloads": [
 			{
@@ -228,7 +228,7 @@
 		]
 	},
 	{
-		"date": "2015-02-11T23:03:00Z",
+		"date": "2015-02-11T23:03:32Z",
 		"image": "falcon9-1.1-faring-legs.png",
 		"payloads": [
 			{
@@ -294,7 +294,7 @@
 		"image": "falcon9-1.1-faring-legs.png",
 		"payloads": [
 			{
-				"name": "OG2 Mission 2",
+				"name": "Orbcomm OG2 Mission 2",
 				"orbit": "LEO",
 				"image": "satellite.png",
 				"altitude": 640
@@ -468,7 +468,7 @@
 		"image": "falcon9-1.1-faring.png",
 		"payloads": [
 			{
-				"name": "Inmarsat 5-F4",
+				"name": "Inmarsat-5 F4",
 				"orbit": "GTO",
 				"image": "satellite.png"
 			}
@@ -486,7 +486,7 @@
 		]
 	},
 	{
-		"date": "2017-06-17T18:10:00Z",
+		"date": "2017-06-23T19:10:00Z",
 		"image": "falcon9-1.1-faring-legs.png",
 		"payloads": [
 			{
@@ -497,11 +497,11 @@
 		]
 	},
 	{
-		"date": "2017-06-25T20:24:59Z",
+		"date": "2017-06-25T20:25:14Z",
 		"image": "falcon9-1.1-faring-legs.png",
 		"payloads": [
 			{
-				"name": "Iridium NEXT 11-12",
+				"name": "Iridium NEXT 11-20",
 				"orbit": "LEO",
 				"image": "satellite.png"
 			}
@@ -535,18 +535,34 @@
 		]
 	},
 	{
+		"date": "2017-07-15T00:00:00Z",
+		"image": "falcon9-1.1-faring-legs.png",
+		"payloads": [
+			{
+				"name": "Koreasat 5A",
+				"orbit": "GTO",
+				"image": "satellite.png"
+			}
+		]
+	},
+	{
 		"date": "2017-07-22T00:00:00Z",
 		"image": "falcon9-1.1-faring-legs.png",
 		"payloads": [
 			{
-				"name": "FormoSat-5",
+				"name": "SAOCOM 1A",
+				"orbit": "SSO",
+				"image": "satellite.png"
+			},
+			{
+				"name": "ITASAT-1",
 				"orbit": "SSO",
 				"image": "satellite.png"
 			}
 		]
 	},
 	{
-		"date": "2017-08-01T00:00:00Z",
+		"date": "2017-08-10T18:07:00Z",
 		"image": "falcon9-1.1-dragon-legs.png",
 		"payloads": [
 			{
@@ -558,6 +574,22 @@
 	},
 	{
 		"date": "2017-08-15T00:00:00Z",
+		"image": "falcon9-1.1-faring-legs.png",
+		"payloads": [
+			{
+				"name": "FormoSat-5",
+				"orbit": "SSO",
+				"image": "satellite.png"
+			},
+			{
+				"name": "SHERPA tug",
+				"orbit": "SSO",
+				"image": "satellite.png"
+			}
+		]
+	},
+	{
+		"date": "2017-08-17T00:00:00Z",
 		"image": "falcon9-1.1-faring-legs.png",
 		"payloads": [
 			{
@@ -579,7 +611,7 @@
 		]
 	},
 	{
-		"date": "2017-10-01T00:00:00Z",
+		"date": "2017-08-31T00:00:00Z",
 		"image": "falconheavy-faring-legs.png",
 		"payloads": [
 			{
@@ -590,7 +622,18 @@
 		]
 	},
 	{
-		"date": "2017-10-15T00:00:00Z",
+		"date": "2017-09-01T00:00:00Z",
+		"image": "falcon9-1.1-faring-legs.png",
+		"payloads": [
+			{
+				"name": "GovSat (SES-16)",
+				"orbit": "GTO",
+				"image": "satellite.png"
+			}
+		]
+	},
+	{
+		"date": "2017-09-01T00:00:00Z",
 		"image": "falcon9-1.1-faring-legs.png",
 		"payloads": [
 			{
@@ -601,16 +644,44 @@
 		]
 	},
 	{
-		"date": "2017-10-25T00:00:00Z",
+		"date": "2017-10-01T00:00:00Z",
 		"image": "falcon9-1.1-faring-legs.png",
 		"payloads": [
 			{
-				"name": "SAOCOM 1A",
-				"orbit": "SSO",
+				"name": "SES-14",
+				"orbit": "GTO",
 				"image": "satellite.png"
-			},
+			}
+		]
+	},
+	{
+		"date": "2017-10-01T00:00:00Z",
+		"image": "falcon9-1.1-faring-legs.png",
+		"payloads": [
 			{
-				"name": "ITASAT-1",
+				"name": "Iridium NEXT 41-50",
+				"orbit": "LEO",
+				"image": "satellite.png"
+			}
+		]
+	},
+	{
+		"date": "2017-11-01T00:00:00Z",
+		"image": "falcon9-1.1-faring-legs.png",
+		"payloads": [
+			{
+				"name": "SpaceX CRS-13",
+				"orbit": "LEO",
+				"image": "dragon-trunk.png"
+			}
+		]
+	},
+	{
+		"date": "2017-11-01T00:00:00Z",
+		"image": "falcon9-1.1-faring-legs.png",
+		"payloads": [
+			{
+				"name": "SHERPA SSO Dedicated Rideshare",
 				"orbit": "SSO",
 				"image": "satellite.png"
 			}
@@ -618,11 +689,99 @@
 	},
 	{
 		"date": "2017-12-01T00:00:00Z",
+		"image": "falcon9-1.1-faring-legs.png",
+		"payloads": [
+			{
+				"name": "Iridium NEXT 51-60",
+				"orbit": "LEO",
+				"image": "satellite.png"
+			}
+		]
+	},
+	{
+		"date": "2017-12-01T00:00:00Z",
+		"image": "falcon9-1.1-faring-legs.png",
+		"payloads": [
+			{
+				"name": "PAZ",
+				"orbit": "LEO",
+				"image": "satellite.png"
+			}
+		]
+	},
+	{
+		"date": "2017-12-16T00:00:00Z",
+		"image": "falcon9-1.1-faring-legs.png",
+		"payloads": [
+			{
+				"name": "Bangabandhu-1",
+				"orbit": "GTO",
+				"image": "satellite.png"
+			}
+		]
+	},
+	{
+		"date": "2018-01-01T00:00:00Z",
 		"image": "falconheavy-faring-legs.png",
 		"payloads": [
 			{
 				"name": "STP-2",
 				"orbit": "GTO",
+				"image": "satellite.png"
+			}
+		]
+	},
+	{
+		"date": "2018-01-01T00:00:00Z",
+		"image": "falconheavy-faring-legs.png",
+		"payloads": [
+			{
+				"name": "Arabsat-6A",
+				"orbit": "GTO",
+				"image": "satellite.png"
+			}
+		]
+	},
+	{
+		"date": "2018-01-01T00:00:00Z",
+		"image": "falcon9-1.1-faring-legs.png",
+		"payloads": [
+			{
+				"name": "RADARSAT Constellation",
+				"orbit": "SSO",
+				"image": "satellite.png"
+			}
+		]
+	},
+	{
+		"date": "2018-01-01T00:00:00Z",
+		"image": "falcon9-1.1-faring-legs.png",
+		"payloads": [
+			{
+				"name": "KazSTSAT",
+				"orbit": "LEO",
+				"image": "satellite.png"
+			}
+		]
+	},
+	{
+		"date": "2018-01-01T00:00:00Z",
+		"image": "falcon9-1.1-faring-legs.png",
+		"payloads": [
+			{
+				"name": "Es'hail 2",
+				"orbit": "GEO",
+				"image": "satellite.png"
+			}
+		]
+	},
+	{
+		"date": "2018-01-01T00:00:00Z",
+		"image": "falcon9-1.1-faring-legs.png",
+		"payloads": [
+			{
+				"name": "Telkom-4",
+				"orbit": "GEO",
 				"image": "satellite.png"
 			}
 		]
@@ -639,12 +798,127 @@
 		]
 	},
 	{
+		"date": "2018-02-01T00:00:00Z",
+		"image": "falcon9-1.1-faring-legs.png",
+		"payloads": [
+			{
+				"name": "Iridium NEXT 61-70",
+				"orbit": "LEO",
+				"image": "satellite.png"
+			}
+		]
+	},
+	{
+		"date": "2018-02-01T00:00:00Z",
+		"image": "falcon9-1.1-faring-legs.png",
+		"payloads": [
+			{
+				"name": "Iridium NEXT 71-75",
+				"orbit": "LEO",
+				"image": "satellite.png"
+			},
+			{
+				"name": "2 x GRACE-FO",
+				"orbit": "LEO",
+				"image": "satellite.png"
+			}
+		]
+	},
+	{
+		"date": "2018-03-01T00:00:00Z",
+		"image": "falcon9-1.1-faring-legs.png",
+		"payloads": [
+			{
+				"name": "TESS",
+				"orbit": "HEO",
+				"image": "satellite.png"
+			}
+		]
+	},
+	{
+		"date": "2018-03-09T00:00:00Z",
+		"image": "falcon9-1.1-dragon-legs.png",
+		"payloads": [
+			{
+				"name": "SpaceX-DM1",
+				"orbit": "LEO",
+				"image": "dragon-trunk.png"
+			}
+		]
+	},
+	{
+		"date": "2018-05-31T00:00:00Z",
+		"image": "falcon9-1.1-dragon-legs.png",
+		"payloads": [
+			{
+				"name": "SpaceX-DM2",
+				"orbit": "LEO",
+				"image": "dragon-trunk.png"
+			}
+		]
+	},
+	{
+		"date": "2018-10-01T00:00:00Z",
+		"image": "falcon9-1.1-faring-legs.png",
+		"payloads": [
+			{
+				"name": "GiSAT-1",
+				"orbit": "GEO",
+				"image": "satellite.png"
+			}
+		]
+	},
+	{
+		"date": "2018-12-01T00:00:00Z",
+		"image": "falcon9-1.1-faring-legs.png",
+		"payloads": [
+			{
+				"name": "GPS-3",
+				"orbit": "MEO",
+				"image": "satellite.png"
+			}
+		]
+	},
+	{
+		"date": "2018-12-31T00:00:00Z",
+		"image": "falconheavy-dragon-legs.png",
+		"payloads": [
+			{
+				"name": "Dragon V2 Tourist Moon Flyby",
+				"orbit": "Moon",
+				"image": "dragon-trunk.png"
+			}
+		]
+	},
+	{
 		"date": "2019-07-01T00:00:00Z",
 		"image": "falcon9-1.1-faring-legs.png",
 		"payloads": [
 			{
 				"name": "SARah 2/3",
 				"orbit": "SSO",
+				"image": "satellite.png"
+			}
+		]
+	},
+	{
+		"date": "2020-06-18T00:00:00Z",
+		"image": "falconheavy-dragon-legs.png",
+		"payloads": [
+			{
+				"name": "Red Dragon Mission 1",
+				"orbit": "Mars",
+				"image": "dragon-trunk.png"
+			}
+		]
+	},
+	{
+		"date": "2021-04-01T00:00:00Z",
+		"image": "falcon9-1.1-faring-legs.png",
+		"payloads": [
+			{
+				"name": "SWOT - Surface Water and Ocean Topography",
+				"orbit": "LEO",
 				"image": "satellite.png"
 			}
 		]
